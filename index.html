@@ -68,14 +68,14 @@
                         zoomInOut: 'zoomInOut 15s ease-in-out infinite',
                         backgroundShine: 'backgroundShine 8s linear infinite',
                         borderGlow: 'borderGlow 4s ease-in-out infinite'
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                     }
                 }
             }
         }
     </script>
-    <!-- Alpine.js - Correctly loading the Intersect plugin first, then Alpine -->
-    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -86,11 +86,12 @@
             background-color: #0d1117;
             position: relative;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* Enhanced background elements */
+        /* Enhanced background elements - Fixed positioning and z-index */
         .bg-blur-1 {
-            position: absolute;
+            position: fixed;
             width: 40vw;
             height: 40vw;
             border-radius: 50%;
@@ -98,13 +99,14 @@
             filter: blur(50px);
             top: 5%;
             right: -10%;
-            z-index: -2;
+            z-index: 0;
             animation: floatSlow 30s ease-in-out infinite;
             transform-origin: center;
+            pointer-events: none;
         }
 
         .bg-blur-2 {
-            position: absolute;
+            position: fixed;
             width: 30vw;
             height: 30vw;
             border-radius: 50%;
@@ -112,14 +114,15 @@
             filter: blur(60px);
             bottom: 10%;
             left: -5%;
-            z-index: -2;
+            z-index: 0;
             animation: floatSlow 20s ease-in-out infinite alternate;
             transform-origin: center;
             animation-delay: -5s;
+            pointer-events: none;
         }
 
         .bg-blur-3 {
-            position: absolute;
+            position: fixed;
             width: 25vw;
             height: 25vw;
             border-radius: 50%;
@@ -127,10 +130,11 @@
             filter: blur(40px);
             top: 60%;
             right: 20%;
-            z-index: -2;
+            z-index: 0;
             animation: floatSlow 25s ease-in-out infinite;
             transform-origin: center;
             animation-delay: -10s;
+            pointer-events: none;
         }
 
         .noise-texture {
@@ -141,8 +145,8 @@
             height: 100%;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj4KICA8ZmlsdGVyIGlkPSJub2lzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+CiAgICA8ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjAuMDEiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIG51bU9jdGF2ZXM9IjUiIHNlZWQ9IjIiIHJlc3VsdD0idHVyYnVsZW5jZSI+PC9mZVR1cmJ1bGVuY2U+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIj48L2ZlQ29sb3JNYXRyaXg+CiAgPC9maWx0ZXI+CgogIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAyIj48L3JlY3Q+Cjwvc3ZnPg==');
             pointer-events: none;
-            opacity: 0.4;
-            z-index: -1;
+            opacity: 0.3;
+            z-index: 0;
         }
 
         .grid-pattern {
@@ -151,65 +155,62 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(88, 166, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(88, 166, 255, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
             opacity: 0.2;
         }
 
         /* Enhanced glass effects */
         .glass-nav {
-            background-color: rgba(13, 17, 23, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(88, 166, 255, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .glass-card {
-            background: linear-gradient(135deg, rgba(22, 27, 34, 0.6) 0%, rgba(22, 27, 34, 0.4) 100%);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(88, 166, 255, 0.15);
-            transition: all 0.4s ease;
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.7) 0%, rgba(13, 17, 23, 0.6) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(48, 54, 61, 0.5);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .glass-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(88, 166, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(88, 166, 255, 0.3);
         }
 
         .glass-modal {
-            background: linear-gradient(135deg, rgba(22, 27, 34, 0.85) 0%, rgba(22, 27, 34, 0.75) 100%);
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(13, 17, 23, 0.9) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(88, 166, 255, 0.2);
+            border: 1px solid rgba(48, 54, 61, 0.5);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
         .glass-button {
-            background: rgba(88, 166, 255, 0.1);
+            background: rgba(22, 27, 34, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(48, 54, 61, 0.5);
         }
 
         .glass-button:hover {
-            background: rgba(88, 166, 255, 0.2);
+            background: rgba(22, 27, 34, 0.9);
             border: 1px solid rgba(88, 166, 255, 0.4);
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Glowing gradient borders */
         .glow-border {
             position: relative;
             border: 1px solid rgba(88, 166, 255, 0.3);
-            animation: borderGlow 4s ease-in-out infinite;
         }
 
         .glow-border::before {
@@ -228,10 +229,6 @@
             animation: backgroundShine 8s linear infinite;
         }
 
-        .glow-border:hover::before {
-            opacity: 0.5;
-        }
-
         /* Gradient text effect */
         .gradient-text {
             background: linear-gradient(90deg, #58a6ff, #bc96e6, #58a6ff);
@@ -242,20 +239,6 @@
             animation: backgroundShine 8s linear infinite;
         }
 
-        /* Neo-brutalism elements */
-        .neo-brutalism {
-            background: #161b22;
-            border: 2px solid #30363d;
-            box-shadow: 5px 5px 0px #000;
-            transform: translate(-2px, -2px);
-            transition: all 0.2s ease;
-        }
-
-        .neo-brutalism:hover {
-            transform: translate(-5px, -5px);
-            box-shadow: 8px 8px 0px #000;
-        }
-
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
@@ -263,51 +246,160 @@
 
         ::-webkit-scrollbar-track {
             background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(10px);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(88, 166, 255, 0.2);
+            background: rgba(48, 54, 61, 0.8);
             border-radius: 5px;
             border: 1px solid rgba(88, 166, 255, 0.1);
-            backdrop-filter: blur(10px);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(88, 166, 255, 0.4);
+            background: rgba(88, 166, 255, 0.2);
         }
 
         /* Hide horizontal scrollbar */
         html {
             scrollbar-width: thin;
-            scrollbar-color: rgba(88, 166, 255, 0.2) rgba(13, 17, 23, 0.8);
+            scrollbar-color: rgba(48, 54, 61, 0.8) rgba(13, 17, 23, 0.8);
         }
 
-        /* Animation utility classes */
+        /* Animation utility classes with improved opacity start values */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        .fade-in.appear {
-            opacity: 1;
-            transform: translateY(0);
+        /* Animation for navbar on scroll */
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.5s ease;
         }
 
-        .slide-in {
+        .navbar-scrolled {
+            background-color: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .navbar-top {
+            background-color: transparent;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        /* Modal styles with improved visibility */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+            visibility: hidden;
             opacity: 0;
-            transform: translateX(50px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: visibility 0s linear 0.3s, opacity 0.3s ease;
         }
 
-        .slide-in.appear {
+        .modal.active {
+            visibility: visible;
             opacity: 1;
-            transform: translateX(0);
+            transition-delay: 0s;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .modal.active .modal-backdrop {
+            opacity: 1;
+        }
+
+        .modal-container {
+            position: relative;
+            width: 100%;
+            max-width: 64rem;
+            max-height: 90vh;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal.active .modal-container {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Make all content have proper z-index */
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Fix for hover effects */
+        .glass-card {
+            transition: all 0.4s ease;
+        }
+
+        /* Make sure cards show up properly */
+        .project-card img {
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Ensure visible children */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Fix animation issues */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Improved fade in animation */
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
         }
     </style>
 </head>
-<body class="bg-github-dark text-github-text min-h-screen" x-data="{ scrolled: false }" @scroll.window="scrolled = window.pageYOffset > 50">
+<body class="bg-github-dark text-github-text min-h-screen">
 <!-- Background elements -->
 <div class="bg-blur-1"></div>
 <div class="bg-blur-2"></div>
@@ -315,118 +407,171 @@
 <div class="noise-texture"></div>
 <div class="grid-pattern"></div>
 
-<!-- Header/Navbar -->
-<header class="fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out"
-        :class="scrolled ? 'glass-nav shadow-lg py-2' : 'bg-transparent py-6'">
-    <div class="container mx-auto px-6 flex justify-between items-center">
-        <a href="#" class="group">
-            <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-3">
-                <div class="h-10 w-10 rounded-lg bg-gradient-to-tr from-github-accent to-blue-400 flex items-center justify-center
-                            transition-all duration-500 group-hover:rotate-12 group-hover:scale-110">
-                    <i class="fas fa-code text-white"></i>
-                </div>
-                <span class="text-github-text transition-all duration-300 group-hover:text-github-accent gradient-text">Web Portfolio</span>
-            </h1>
+<!-- Enhanced Header/Navbar -->
+<header class="navbar-fixed navbar-top backdrop-blur-md z-50" id="navbar">
+    <div class="container mx-auto px-4 lg:px-8 py-3 flex justify-between items-center">
+        <a href="#" class="group flex items-center gap-3 hover:-translate-y-0.5 transition-all duration-300">
+            <!-- Logo with enhanced gradient and animation -->
+            <div class="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 via-github-accent to-blue-400
+                        shadow-lg shadow-github-accent/20 flex items-center justify-center
+                        transition-all duration-500 group-hover:shadow-github-accent/40 overflow-hidden relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-github-accent/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <i class="fas fa-code text-white text-xl"></i>
+            </div>
+            <div class="flex flex-col">
+                <span class="text-2xl md:text-3xl font-bold gradient-text tracking-tight">Project Portfolio</span>
+                <span class="text-xs text-github-text/70 hidden md:block tracking-widest">INNOVATIVE DEVELOPMENT SOLUTIONS</span>
+            </div>
         </a>
 
-        <div class="flex items-center gap-6">
-            <a href="#" class="hidden md:block text-github-text hover:text-github-accent transition-all duration-300 transform hover:scale-110">
-                <i class="fab fa-github text-xl"></i>
-            </a>
-            <a href="#" class="hidden md:block text-github-text hover:text-github-accent transition-all duration-300 transform hover:scale-110">
-                <i class="fab fa-linkedin text-xl"></i>
-            </a>
-            <a href="#" class="hidden md:block text-github-text hover:text-github-accent transition-all duration-300 transform hover:scale-110">
-                <i class="fas fa-envelope text-xl"></i>
-            </a>
-            <button class="glass-button text-github-accent px-5 py-2.5 rounded-lg transition-all duration-300 hover:-translate-y-1">
+        <div class="flex items-center gap-3 md:gap-6">
+            <!-- Social links with enhanced hover effects -->
+            <div class="hidden md:flex items-center space-x-5">
+                <a href="#" class="text-github-text/80 hover:text-github-accent transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="#" class="text-github-text/80 hover:text-github-accent transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="text-github-text/80 hover:text-github-accent transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+            </div>
+
+            <!-- Divider line -->
+            <div class="hidden md:block h-8 w-px bg-github-border/30 mx-1"></div>
+
+            <!-- Contact button with enhanced design -->
+            <button class="glass-button bg-gradient-to-r from-github-accent/10 to-blue-500/10 text-github-accent px-5 py-3 rounded-lg font-medium border border-github-accent/20 shadow-md shadow-github-accent/5 hover:shadow-github-accent/20 transition-all duration-300 flex items-center gap-2">
                 <span class="hidden md:inline">Contact Me</span>
-                <span class="md:hidden"><i class="fas fa-envelope"></i></span>
+                <i class="fas fa-envelope md:ml-1"></i>
+                <span class="md:hidden">Contact</span>
             </button>
         </div>
     </div>
 </header>
+<!-- above part no need to update  -->
 
 <!-- Hero Section -->
-<section class="pt-32 md:pt-40 pb-16 px-4 relative">
-    <div class="container mx-auto max-w-6xl px-4 relative z-10">
-        <!-- Animated decorative elements -->
-        <div class="absolute top-[10%] right-[5%] w-16 h-16 rounded-full bg-github-accent/10 blur-xl animate-pulse"></div>
-        <div class="absolute bottom-[20%] left-[10%] w-24 h-24 rounded-full bg-purple-500/10 blur-xl animate-pulse" style="animation-delay: 1s"></div>
+<!-- Enhanced Hero Section for Java Developer -->
+<section class="pt-32 md:pt-40 pb-16 px-4 relative overflow-hidden">
+    <!-- Additional animated background elements -->
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-purple-600/5 blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/3 w-80 h-80 rounded-full bg-blue-600/5 blur-3xl animate-pulse" style="animation-delay: 1.5s"></div>
 
+    <div class="container mx-auto max-w-6xl px-4 relative content-layer">
         <div class="flex flex-col md:flex-row items-center gap-10">
-            <div class="md:w-1/2 animate-fadeIn" style="animation-delay: 0.2s">
-                <div class="mb-3 inline-block">
-                        <span class="px-4 py-1.5 rounded-full bg-github-accent/10 text-github-accent text-sm font-medium border border-github-accent/20">
-                            Web Developer
-                        </span>
+            <div class="md:w-1/2 animate-fade-in">
+                <!-- Enhanced badge with animation -->
+                <div class="mb-5 inline-block animate-bounce" style="animation-duration: 3s;">
+                    <span class="px-5 py-2 rounded-full bg-gradient-to-r from-blue-600/10 to-purple-600/10 text-blue-500 text-sm font-medium border border-blue-500/20 shadow-md shadow-blue-500/5">
+                        <i class="fab fa-java mr-2"></i>Java Developer
+                    </span>
                 </div>
 
-                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-                    <span class="gradient-text">Creative</span> Web Projects &
-                    <span class="gradient-text">Innovative</span> Solutions
+                <!-- Enhanced heading with animated underline effect -->
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold mb-8 leading-tight relative">
+                    <span class="gradient-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500">Enterprise</span> Java Solutions &
+                    <span class="gradient-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500">Scalable</span> Architectures
+                    <div class="h-1 w-0 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 mt-2 animate-[width_3s_ease-out_forwards]" style="animation: expand 3s forwards; @keyframes expand { to { width: 60%; } }"></div>
                 </h1>
 
                 <p class="text-lg text-github-text/80 mb-8 leading-relaxed max-w-xl">
-                    Explore my collection of web projects showcasing modern technologies and creative problem-solving. Each project reflects my passion for clean design, modern technologies, and efficient code.
+                    Explore my portfolio of high-performance Java applications built with modern frameworks and microservice architectures. Each project demonstrates enterprise-grade solutions with clean code, scalability, and cutting-edge technologies.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <button class="glass-button bg-gradient-to-r from-github-accent to-blue-500 bg-size-200 hover:bg-right-bottom text-white px-8 py-3.5 rounded-lg font-medium transition-all duration-500 hover:shadow-lg hover:shadow-github-accent/20 flex items-center gap-2 group">
+                    <button class="glass-button bg-gradient-to-r from-blue-600 to-purple-500 text-white px-8 py-3.5 rounded-lg font-medium transition-all duration-500 flex items-center gap-2 hover:shadow-lg hover:shadow-blue-500/20 group">
                         <span>View Projects</span>
-                        <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-2"></i>
+                        <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
                     </button>
 
-                    <button class="glass-button px-8 py-3.5 rounded-lg font-medium transition-all duration-300 hover:bg-github-dark-secondary/50 border border-github-border/30 hover:border-github-border/60">
+                    <button class="glass-button px-8 py-3.5 rounded-lg font-medium transition-all duration-300 border border-github-border/30 hover:border-blue-500/30 group">
                         About Me
+                        <div class="h-0.5 w-0 bg-gradient-to-r from-blue-500 to-purple-500 mt-1 group-hover:w-full transition-all duration-300"></div>
                     </button>
+                </div>
+
+                <!-- Tech stack pills -->
+                <div class="flex flex-wrap gap-3 mt-8">
+                    <span class="px-3 py-1 bg-github-dark-secondary/50 rounded-full text-xs text-github-text/70 border border-github-border/20">Spring Boot</span>
+                    <span class="px-3 py-1 bg-github-dark-secondary/50 rounded-full text-xs text-github-text/70 border border-github-border/20">Micronaut</span>
+                    <span class="px-3 py-1 bg-github-dark-secondary/50 rounded-full text-xs text-github-text/70 border border-github-border/20">Quarkus</span>
+                    <span class="px-3 py-1 bg-github-dark-secondary/50 rounded-full text-xs text-github-text/70 border border-github-border/20">Hibernate</span>
                 </div>
             </div>
 
-            <div class="md:w-1/2 animate-fadeIn flex justify-center" style="animation-delay: 0.5s">
+            <div class="md:w-1/2 animate-fade-in delay-100 flex justify-center">
                 <div class="relative w-full max-w-md aspect-square">
-                    <!-- Decorative elements -->
-                    <div class="absolute w-full h-full rounded-full bg-gradient-radial from-github-accent/20 to-transparent blur-3xl -z-10 animate-pulse"></div>
+                    <!-- Enhanced glow effect behind the main image -->
+                    <div class="absolute inset-0 bg-gradient-radial from-blue-500/20 via-purple-500/10 to-transparent blur-3xl rounded-full animate-pulse"></div>
 
-                    <!-- Main image with glassmorphism frame -->
+                    <!-- Main image with enhanced glassmorphism frame -->
                     <div class="relative w-full h-full rounded-2xl glow-border overflow-hidden">
-                        <!-- Glassmorphism layer -->
-                        <div class="absolute inset-0 bg-github-dark-secondary/30 backdrop-blur-sm z-10"></div>
+                        <!-- Improved glassmorphism layer -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-github-dark-secondary/40 to-github-dark-secondary/20 backdrop-blur-sm z-10"></div>
 
-                        <!-- Image -->
-                        <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        <!-- Image - using a Java/enterprise development related image -->
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
                              class="w-full h-full object-cover animate-float rounded-xl"
-                             alt="Web Development">
+                             alt="Java Development">
 
-                        <!-- Decorative code element -->
-                        <div class="absolute bottom-4 left-4 right-4 glass-card p-3 text-xs text-github-accent/90 font-mono rounded-lg z-20">
+                        <!-- Enhanced code element with Java code -->
+                        <div class="absolute bottom-4 left-4 right-4 glass-card p-3 text-xs text-github-accent/90 font-mono rounded-lg z-20 border border-github-border/30">
                             <div class="flex items-center gap-1.5 mb-2">
                                 <div class="w-3 h-3 rounded-full bg-red-400"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                                <span class="ml-2 opacity-70">index.html</span>
+                                <span class="ml-2 opacity-70">Application.java</span>
                             </div>
                             <div>
-                                <span class="text-purple-400">&lt;div</span>
-                                <span class="text-github-accent">class=</span>
-                                <span class="text-green-400">"glassmorphism"</span>
-                                <span class="text-purple-400">&gt;</span>
-                                <br/>
-                                <span class="ml-4">Modern Web Design</span>
-                                <br/>
-                                <span class="text-purple-400">&lt;/div&gt;</span>
+                                <span class="text-purple-400">@SpringBootApplication</span><br/>
+                                <span class="text-blue-400">public class</span>
+                                <span class="text-yellow-300"> Application</span>
+                                <span class="text-github-text/90"> {</span><br/>
+                                <span class="ml-4 text-green-400">public static void</span>
+                                <span class="text-yellow-300"> main</span><span class="text-github-text/90">(String[] args) {</span><br/>
+                                <span class="ml-8 text-blue-400">SpringApplication</span><span class="text-github-text/90">.run(Application.class, args);</span><br/>
+                                <span class="ml-4 text-github-text/90">}</span><br/>
+                                <span class="text-github-text/90">}</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Decorative floating elements -->
-                    <div class="absolute -top-10 -right-10 w-24 h-24 rotate-12 glass-card rounded-lg p-3 flex items-center justify-center animate-floatSlow z-20" style="animation-delay: -5s">
-                        <i class="fab fa-react text-4xl text-blue-400"></i>
+                    <!-- Decorative floating elements - Java framework logos -->
+                    <div class="absolute -top-10 -right-10 w-24 h-24 rotate-12 glass-card rounded-lg p-3 flex items-center justify-center animate-floatSlow z-20 border border-github-border/30 shadow-lg" style="animation-delay: -5s">
+                        <!-- Spring Logo -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-16 h-16">
+                            <path fill="#8BC34A" d="M43.982,23.635c0.069-4.261-0.891-9.328-2.891-15.273l-1.568-4.662l-2.13,4.433 c-0.114,0.237-0.244,0.469-0.38,0.698C33.514,5.827,28.974,4,24,4C12.954,4,4,12.954,4,24c0,11.046,8.954,20,20,20s20-8.954,20-20 C44,23.877,43.984,23.758,43.982,23.635z"/>
+                            <path fill="#fff" d="M39.385 32.558c-3.123 4.302-8.651 4.533-13.854 4.442H18.75h-1.938c4.428-1.593 7.063-1.972 9.754-3.4 5.068-2.665 10.078-8.496 11.121-14.562-1.93 5.836-7.779 10.85-13.109 12.889-3.652 1.393-10.248 2.745-10.248 2.745l-.267-.145C9.573 32.268 9.437 22.214 17.6 18.968c3.574-1.423 6.993-.641 10.854-1.593 4.122-1.012 8.89-4.208 10.83-8.375C41.456 15.667 44.07 26.106 39.385 32.558L39.385 32.558zM15.668 38.445C15.386 38.795 14.955 39 14.505 39c-.823 0-1.495-.677-1.495-1.5s.677-1.5 1.495-1.5c.341 0 .677.118.941.336C16.086 36.855 16.186 37.805 15.668 38.445L15.668 38.445z"/>
+                        </svg>
                     </div>
 
-                    <div class="absolute -bottom-5 -left-5 w-20 h-20 -rotate-12 glass-card rounded-lg p-3 flex items-center justify-center animate-floatSlow z-20" style="animation-delay: -10s">
-                        <i class="fab fa-js text-4xl text-yellow-400"></i>
+                    <div class="absolute -bottom-8 right-10 w-20 h-20 rotate-45 glass-card rounded-lg p-3 flex items-center justify-center animate-floatSlow z-20 border border-github-border/30" style="animation-delay: -8s">
+                        <!-- Micronaut Logo (simplified version) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="w-14 h-14">
+                            <path fill="#4a9425" d="M40,6C21.3,6,6,21.3,6,40s15.3,34,34,34s34-15.3,34-34S58.7,6,40,6z M40,63.5c-13,0-23.5-10.5-23.5-23.5 S27,16.5,40,16.5S63.5,27,63.5,40S53,63.5,40,63.5z"/>
+                            <path fill="#feb672" d="M24,29l16,11l16-11l-16-11L24,29z"/>
+                            <path fill="#4a9425" d="M24,40l16,11l16-11l-16-11L24,40z"/>
+                            <path fill="#feb672" d="M24,51l16,11l16-11l-16-11L24,51z"/>
+                        </svg>
                     </div>
+
+                    <div class="absolute -bottom-5 -left-5 w-20 h-20 -rotate-12 glass-card rounded-lg p-3 flex items-center justify-center animate-floatSlow z-20 border border-github-border/30" style="animation-delay: -10s">
+                        <!-- Quarkus Logo (simplified version) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 100" class="w-14 h-14">
+                            <path fill="#4695eb" d="M42.5,2.5l-40,20v55l40,20l40-20v-55L42.5,2.5z M42.5,32.5c5.5,0,10,4.5,10,10s-4.5,10-10,10s-10-4.5-10-10S37,32.5,42.5,32.5z"/>
+                            <path fill="#ff004a" d="M42.5,22.5v10c5.5,0,10,4.5,10,10s-4.5,10-10,10v10c11,0,20-9,20-20S53.5,22.5,42.5,22.5z"/>
+                        </svg>
+                    </div>
+
+                    <!-- Small particles floating effect -->
+                    <div class="particle absolute w-2 h-2 rounded-full bg-blue-500/50 animate-floatSlow"
+                         style="top: 30%; left: 20%; animation-duration: 15s; animation-delay: -3s;"></div>
+                    <div class="particle absolute w-1 h-1 rounded-full bg-purple-500/50 animate-floatSlow"
+                         style="top: 65%; left: 80%; animation-duration: 12s; animation-delay: -7s;"></div>
+                    <div class="particle absolute w-1.5 h-1.5 rounded-full bg-blue-400/60 animate-floatSlow"
+                         style="top: 15%; left: 75%; animation-duration: 20s; animation-delay: -5s;"></div>
                 </div>
             </div>
         </div>
@@ -434,191 +579,496 @@
 </section>
 
 <!-- Main Content -->
-<main class="container mx-auto py-20 px-4 relative">
-    <div class="max-w-3xl mx-auto text-center mb-16 fade-in animate-on-scroll">
-        <h2 class="text-4xl font-bold mb-6 text-github-text gradient-text inline-block">
-            Featured Web Projects
-        </h2>
-        <div class="h-1 w-24 bg-gradient-to-r from-github-accent to-purple-500 mx-auto mb-6 rounded-full"></div>
-        <p class="text-github-text/80 text-lg max-w-2xl mx-auto leading-relaxed">
-            Explore my showcase of web development projects built with modern frameworks and creative solutions.
-            Each project represents a unique challenge and innovative approach to web design and functionality.
-        </p>
-    </div>
+<main class="container mx-auto py-20 px-4 relative content-layer">
 
-    <!-- Filter Tabs with glassmorphism -->
-    <div class="max-w-lg mx-auto mb-16 flex justify-center">
-        <div class="glass-card rounded-full inline-flex p-1.5 animate-fadeIn" style="animation-delay: 0.3s">
-            <button class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-github-accent text-white shadow-lg"
-                    data-filter="all">All Projects</button>
-            <button class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 text-github-text hover:text-github-accent"
-                    data-filter="frontend">Frontend</button>
-            <button class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 text-github-text hover:text-github-accent"
-                    data-filter="fullstack">Full Stack</button>
+    <div class="max-w-3xl mx-auto text-center mb-20 relative z-10">
+
+        <h2 class="text-4xl md:text-5xl font-bold mb-6 relative inline-block animate-fade-in" style="animation-delay: 0.2s">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-size-200 animate-backgroundShine">Featured Java Projects</span>
+            <!-- Animated underline -->
+            <div class="h-1 bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 w-0 mx-auto mt-2 rounded-full" style="animation: expand-width 1.5s forwards 0.8s;"></div>
+        </h2>
+
+        <!-- Enhanced description with better typography and animation -->
+        <p class="text-github-text/80 text-lg max-w-2xl mx-auto leading-relaxed animate-fade-in" style="animation-delay: 0.4s">
+            Explore my portfolio of enterprise-grade Java applications built with Spring, Micronaut, and Quarkus.
+            These projects showcase microservice architectures, cloud-native solutions, and scalable backend systems.
+        </p>
+
+        <!-- Project metrics with animated counters -->
+        <div class="flex flex-wrap justify-center gap-8 md:gap-16 mt-10 animate-fade-in" style="animation-delay: 0.6s">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-blue-400 mb-1 counter" data-target="15">0</div>
+                <div class="text-sm text-github-text/70 uppercase tracking-wider">Projects</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-purple-400 mb-1 counter" data-target="8">0</div>
+                <div class="text-sm text-github-text/70 uppercase tracking-wider">Frameworks</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-blue-400 mb-1 counter" data-target="4">0</div>
+                <div class="text-sm text-github-text/70 uppercase tracking-wider">Years Exp.</div>
+            </div>
         </div>
     </div>
 
-    <!-- Projects Grid -->
-    <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2 max-w-7xl mx-auto">
-        <!-- Project cards will be generated by JavaScript -->
+    <!-- Enhanced Projects Grid with better layout and container -->
+    <div class="relative z-10 mb-16">
+        <div class=" p-6 md:p-10  backdrop-blur-md">
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-2 max-w-7xl mx-auto">
+                <!-- Project cards will be generated by JavaScript -->
+                <!-- Loading placeholder animation until JS loads projects -->
+                <div class="animate-pulse" aria-hidden="true">
+                    <div class="h-64 bg-github-dark-secondary/60 rounded-xl mb-4"></div>
+                    <div class="h-6 bg-github-dark-secondary/60 rounded mb-3 w-3/4"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2 w-5/6"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded w-4/6"></div>
+                </div>
+                <div class="animate-pulse hidden md:block" aria-hidden="true" style="animation-delay: 0.2s">
+                    <div class="h-64 bg-github-dark-secondary/60 rounded-xl mb-4"></div>
+                    <div class="h-6 bg-github-dark-secondary/60 rounded mb-3 w-3/4"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2 w-5/6"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded w-4/6"></div>
+                </div>
+                <div class="animate-pulse hidden lg:block" aria-hidden="true" style="animation-delay: 0.4s">
+                    <div class="h-64 bg-github-dark-secondary/60 rounded-xl mb-4"></div>
+                    <div class="h-6 bg-github-dark-secondary/60 rounded mb-3 w-3/4"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded mb-2 w-5/6"></div>
+                    <div class="h-4 bg-github-dark-secondary/60 rounded w-4/6"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- See more projects button -->
-    <div class="flex justify-center mt-16">
-        <button class="glass-button px-10 py-4 rounded-lg font-medium group">
-            <span class="gradient-text">See More Projects</span>
-            <div class="h-0.5 w-0 bg-gradient-to-r from-github-accent to-purple-500 mt-1 group-hover:w-full transition-all duration-300"></div>
-        </button>
+    <!-- Enhanced project category tags -->
+    <div class="flex justify-center flex-wrap gap-3 mt-10 mb-6 animate-fade-in" style="animation-delay: 0.8s">
+        <span class="px-4 py-2 glass-card rounded-full text-sm border border-github-border/30 text-github-text/80">
+            <i class="fas fa-server mr-2 text-blue-400"></i>Microservices
+        </span>
+        <span class="px-4 py-2 glass-card rounded-full text-sm border border-github-border/30 text-github-text/80">
+            <i class="fas fa-database mr-2 text-blue-400"></i>Data Processing
+        </span>
+        <span class="px-4 py-2 glass-card rounded-full text-sm border border-github-border/30 text-github-text/80">
+            <i class="fas fa-cloud mr-2 text-blue-400"></i>Cloud Native
+        </span>
+        <span class="px-4 py-2 glass-card rounded-full text-sm border border-github-border/30 text-github-text/80">
+            <i class="fas fa-cogs mr-2 text-blue-400"></i>Enterprise Apps
+        </span>
     </div>
+
+
+    <!-- Add custom animation styles -->
+    <style>
+        @keyframes expand-width {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .bg-size-200 {
+            background-size: 200% auto;
+        }
+
+        .animate-backgroundShine {
+            animation: backgroundShine 4s linear infinite;
+        }
+
+        @keyframes backgroundShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 30);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.ceil(current);
+                        setTimeout(updateCounter, 30);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(updateCounter, 500);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(counter);
+            });
+        });
+    </script>
 </main>
+<!-- Enhanced Skills Section with Glassmorphism -->
+<section class="py-5 px-4 relative content-layer overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/3 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1.5s;"></div>
 
-<!-- Skills Section with Glassmorphism -->
-<section class="py-24 px-4 relative">
-    <div class="container mx-auto max-w-6xl">
-        <div class="text-center mb-16 fade-in animate-on-scroll">
-            <h2 class="text-4xl font-bold mb-6 gradient-text inline-block">
-                Web Technologies
+    <div class="container mx-auto max-w-6xl relative z-10">
+        <!-- Enhanced Header -->
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in" style="animation-delay: 0.2s">
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-size-200 animate-backgroundShine">Technical Skills & Expertise</span>
             </h2>
-            <div class="h-1 w-24 bg-gradient-to-r from-github-accent to-purple-500 mx-auto mb-6 rounded-full"></div>
-            <p class="text-github-text/80 text-lg max-w-2xl mx-auto">
-                My tech stack for building modern, responsive, and interactive web applications
+
+            <div class="h-1 w-32 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-6 rounded-full animate-fade-in" style="animation-delay: 0.3s"></div>
+
+            <p class="text-github-text/80 text-lg max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.4s">
+                My comprehensive technology stack for building robust enterprise applications, scalable microservices, and high-performance systems
             </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <!-- Tech cards with enhanced glassmorphism -->
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll">
-                <i class="fab fa-react text-5xl mb-4 text-blue-400"></i>
-                <h3 class="font-medium">React</h3>
-                <div class="mt-2 w-12 h-1 bg-blue-400/50 rounded-full mx-auto"></div>
-            </div>
-
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll" style="transition-delay: 0.1s">
-                <i class="fab fa-js text-5xl mb-4 text-yellow-400"></i>
-                <h3 class="font-medium">JavaScript</h3>
-                <div class="mt-2 w-12 h-1 bg-yellow-400/50 rounded-full mx-auto"></div>
-            </div>
-
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll" style="transition-delay: 0.2s">
-                <i class="fab fa-node-js text-5xl mb-4 text-green-400"></i>
-                <h3 class="font-medium">Node.js</h3>
-                <div class="mt-2 w-12 h-1 bg-green-400/50 rounded-full mx-auto"></div>
-            </div>
-
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll" style="transition-delay: 0.3s">
-                <i class="fab fa-html5 text-5xl mb-4 text-orange-500"></i>
-                <h3 class="font-medium">HTML5</h3>
-                <div class="mt-2 w-12 h-1 bg-orange-500/50 rounded-full mx-auto"></div>
-            </div>
-
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll" style="transition-delay: 0.4s">
-                <i class="fab fa-css3-alt text-5xl mb-4 text-blue-500"></i>
-                <h3 class="font-medium">CSS3</h3>
-                <div class="mt-2 w-12 h-1 bg-blue-500/50 rounded-full mx-auto"></div>
-            </div>
-
-            <div class="glass-card rounded-xl p-6 flex flex-col items-center justify-center text-center aspect-square hover:scale-105 transition-all duration-300 fade-in animate-on-scroll" style="transition-delay: 0.5s">
-                <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none">
-                    <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zM6.001 12c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" fill="#38bdf8"></path>
-                </svg>
-                <h3 class="font-medium">Tailwind</h3>
-                <div class="mt-2 w-12 h-1 bg-blue-400/50 rounded-full mx-auto"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Call to Action Section -->
-<section class="py-20 px-4 relative overflow-hidden">
-    <!-- Background decorative elements -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-gradient-radial from-github-accent/10 to-transparent blur-3xl"></div>
-        <div class="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gradient-radial from-purple-500/10 to-transparent blur-3xl"></div>
-    </div>
-
-    <div class="container mx-auto max-w-6xl">
-        <div class="glass-card rounded-2xl p-10 md:p-16 overflow-hidden relative glow-border fade-in animate-on-scroll">
-            <!-- Decorative elements -->
-            <div class="absolute top-0 right-0 w-96 h-96 bg-github-accent/5 blur-3xl rounded-full -z-10"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/5 blur-3xl rounded-full -z-10"></div>
-
-            <div class="flex flex-col md:flex-row gap-10 items-center">
-                <div class="flex-1">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text">Ready to Start a Project?</h2>
-                    <p class="text-github-text/80 text-lg mb-8 leading-relaxed">
-                        I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
-                    </p>
-
-                    <div class="flex flex-wrap gap-4">
-                        <button class="glass-button bg-gradient-to-r from-github-accent to-blue-500 bg-size-200 hover:bg-right-bottom text-white px-8 py-3.5 rounded-lg font-medium transition-all duration-500 hover:shadow-lg hover:shadow-github-accent/20 flex items-center gap-2 group">
-                            <span>Contact Me</span>
-                            <i class="fas fa-paper-plane transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </button>
-
-                        <button class="glass-button px-8 py-3.5 rounded-lg font-medium transition-all duration-300 border border-github-border/30 hover:border-github-border/60">
-                            <i class="fab fa-github mr-2"></i>
-                            View GitHub
-                        </button>
+        <!-- Main skills container with glassmorphism -->
+        <div class=" p-8 md:p-12 backdrop-blur-md">
+            <!-- Programming Languages Section -->
+            <div class="mb-16 animate-fade-in" style="animation-delay: 0.5s">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <i class="fas fa-code text-blue-400"></i>
                     </div>
-                </div>
+                    <span>Programming Languages</span>
+                </h3>
 
-                <div class="flex-1">
-                    <div class="relative">
-                        <!-- Animated dashed border -->
-                        <div class="absolute inset-0 border-2 border-dashed border-github-accent/30 rounded-lg"></div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="glass-card rounded-xl p-5 flex items-center gap-4 border border-github-border/20 group hover:border-blue-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors duration-300">
+                            <i class="fab fa-java text-3xl text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Java</h4>
+                            <div class="mt-2 h-1.5 w-32 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                        <!-- Glass form mockup -->
-                        <div class="glass-card rounded-lg p-6 ml-4 mt-4">
-                            <div class="space-y-4">
-                                <div class="bg-github-dark-secondary/50 rounded-lg p-4 border border-github-border/30">
-                                    <label class="text-xs text-github-text/60 block mb-2">Your Name</label>
-                                    <div class="w-3/4 h-3 bg-github-text/20 rounded"></div>
-                                </div>
+                    <div class="glass-card rounded-xl p-5 flex items-center gap-4 border border-github-border/20 group hover:border-yellow-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-yellow-500/10 flex items-center justify-center group-hover:bg-yellow-500/20 transition-colors duration-300">
+                            <i class="fab fa-js text-3xl text-yellow-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">JavaScript</h4>
+                            <div class="mt-2 h-1.5 w-32 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-yellow-500 to-yellow-400 rounded-full" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="bg-github-dark-secondary/50 rounded-lg p-4 border border-github-border/30">
-                                    <label class="text-xs text-github-text/60 block mb-2">Email Address</label>
-                                    <div class="w-4/5 h-3 bg-github-text/20 rounded"></div>
-                                </div>
+                    <div class="glass-card rounded-xl p-5 flex items-center gap-4 border border-github-border/20 group hover:border-purple-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/20 transition-colors duration-300">
+                            <span class="text-2xl text-purple-400 font-bold">K</span>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Kotlin</h4>
+                            <div class="mt-2 h-1.5 w-32 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="bg-github-dark-secondary/50 rounded-lg p-4 border border-github-border/30">
-                                    <label class="text-xs text-github-text/60 block mb-2">Project Details</label>
-                                    <div class="w-full space-y-2">
-                                        <div class="w-full h-3 bg-github-text/20 rounded"></div>
-                                        <div class="w-4/5 h-3 bg-github-text/20 rounded"></div>
-                                        <div class="w-3/5 h-3 bg-github-text/20 rounded"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full h-10 rounded bg-github-accent/80 mt-4"></div>
+                    <div class="glass-card rounded-xl p-5 flex items-center gap-4 border border-github-border/20 group hover:border-green-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors duration-300">
+                            <i class="fab fa-microsoft text-3xl text-green-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">C#</h4>
+                            <div class="mt-2 h-1.5 w-32 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style="width: 75%;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Backend Frameworks Section -->
+            <div class="mb-16 animate-fade-in" style="animation-delay: 0.6s">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <i class="fas fa-server text-blue-400"></i>
+                    </div>
+                    <span>Backend & Frameworks</span>
+                </h3>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <!-- Spring Framework -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-green-500/30 transition-all duration-300">
+                        <div class="mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-16 h-16">
+                                <path fill="#8BC34A" d="M43.982,23.635c0.069-4.261-0.891-9.328-2.891-15.273l-1.568-4.662l-2.13,4.433 c-0.114,0.237-0.244,0.469-0.38,0.698C33.514,5.827,28.974,4,24,4C12.954,4,4,12.954,4,24c0,11.046,8.954,20,20,20s20-8.954,20-20 C44,23.877,43.984,23.758,43.982,23.635z"/>
+                                <path fill="#fff" d="M39.385 32.558c-3.123 4.302-8.651 4.533-13.854 4.442H18.75h-1.938c4.428-1.593 7.063-1.972 9.754-3.4 5.068-2.665 10.078-8.496 11.121-14.562-1.93 5.836-7.779 10.85-13.109 12.889-3.652 1.393-10.248 2.745-10.248 2.745l-.267-.145C9.573 32.268 9.437 22.214 17.6 18.968c3.574-1.423 6.993-.641 10.854-1.593 4.122-1.012 8.89-4.208 10.83-8.375C41.456 15.667 44.07 26.106 39.385 32.558L39.385 32.558zM15.668 38.445C15.386 38.795 14.955 39 14.505 39c-.823 0-1.495-.677-1.495-1.5s.677-1.5 1.495-1.5c.341 0 .677.118.941.336C16.086 36.855 16.186 37.805 15.668 38.445L15.668 38.445z"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-medium text-lg">Spring Boot</h4>
+                        <div class="text-xs text-github-text/70 mt-1 mb-3">+ Spring Web, Data, Security, Cloud</div>
+                        <div class="mt-2 h-1.5 w-24 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style="width: 95%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Micronaut -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-blue-500/30 transition-all duration-300">
+                        <div class="mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="w-16 h-16">
+                                <path fill="#4a9425" d="M40,6C21.3,6,6,21.3,6,40s15.3,34,34,34s34-15.3,34-34S58.7,6,40,6z M40,63.5c-13,0-23.5-10.5-23.5-23.5 S27,16.5,40,16.5S63.5,27,63.5,40S53,63.5,40,63.5z"/>
+                                <path fill="#feb672" d="M24,29l16,11l16-11l-16-11L24,29z"/>
+                                <path fill="#4a9425" d="M24,40l16,11l16-11l-16-11L24,40z"/>
+                                <path fill="#feb672" d="M24,51l16,11l16-11l-16-11L24,51z"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-medium text-lg">Micronaut</h4>
+                        <div class="text-xs text-github-text/70 mt-1 mb-3">Cloud-native microservices</div>
+                        <div class="mt-2 h-1.5 w-24 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Quarkus -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-red-500/30 transition-all duration-300">
+                        <div class="mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 100" class="w-16 h-16">
+                                <path fill="#4695eb" d="M42.5,2.5l-40,20v55l40,20l40-20v-55L42.5,2.5z M42.5,32.5c5.5,0,10,4.5,10,10s-4.5,10-10,10s-10-4.5-10-10S37,32.5,42.5,32.5z"/>
+                                <path fill="#ff004a" d="M42.5,22.5v10c5.5,0,10,4.5,10,10s-4.5,10-10,10v10c11,0,20-9,20-20S53.5,22.5,42.5,22.5z"/>
+                            </svg>
+                        </div>
+                        <h4 class="font-medium text-lg">Quarkus</h4>
+                        <div class="text-xs text-github-text/70 mt-1 mb-3">Kubernetes-native Java</div>
+                        <div class="mt-2 h-1.5 w-24 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full" style="width: 80%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Node.js -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-green-500/30 transition-all duration-300">
+                        <div class="mb-5">
+                            <i class="fab fa-node-js text-6xl text-green-500"></i>
+                        </div>
+                        <h4 class="font-medium text-lg">Node.js</h4>
+                        <div class="text-xs text-github-text/70 mt-1 mb-3">JavaScript backend</div>
+                        <div class="mt-2 h-1.5 w-24 bg-github-dark-secondary/50 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture & Infrastructure -->
+            <div class="mb-16 animate-fade-in" style="animation-delay: 0.7s">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <i class="fas fa-layer-group text-blue-400"></i>
+                    </div>
+                    <span>Architecture & Infrastructure</span>
+                </h3>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                    <!-- Architectures -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-blue-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-network-wired text-blue-400 text-2xl"></i>
+                        </div>
+                        <h4 class="font-medium">Microservices</h4>
+                    </div>
+
+                    <!-- Databases -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-blue-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-database text-blue-400 text-2xl"></i>
+                        </div>
+                        <h4 class="font-medium">MySQL</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-blue-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-database text-blue-400 text-2xl"></i>
+                        </div>
+                        <h4 class="font-medium">PostgreSQL</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-green-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-leaf text-green-400 text-2xl"></i>
+                        </div>
+                        <h4 class="font-medium">MongoDB</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-red-500/30 transition-all duration-300">
+                        <div class="h-12 w-12 rounded-lg bg-red-500/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-bolt text-red-400 text-2xl"></i>
+                        </div>
+                        <h4 class="font-medium">Redis</h4>
+                    </div>
+                </div>
+
+                <!-- ORM tools -->
+                <div class="mt-8 grid grid-cols-3 md:grid-cols-6 gap-5">
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">JDBC</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">JPA</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">Hibernate</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">Maven</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">Gradle</h4>
+                    </div>
+
+                    <div class="glass-card rounded-xl p-4 border border-github-border/20 text-center hover:border-blue-500/30 transition-all duration-300">
+                        <h4 class="font-medium">JUnit/Mockito</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frontend & Tools -->
+            <div class="mb-8 animate-fade-in" style="animation-delay: 0.8s">
+                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <i class="fas fa-paint-brush text-blue-400"></i>
+                    </div>
+                    <span>Frontend & Additional Tools</span>
+                </h3>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
+                    <!-- Frontend -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-purple-500/30 transition-all duration-300">
+                        <div class="flex gap-2 items-center justify-center mb-6">
+                            <i class="fab fa-html5 text-2xl text-orange-500"></i>
+                            <i class="fab fa-css3-alt text-2xl text-blue-500"></i>
+                            <i class="fab fa-react text-2xl text-blue-400"></i>
+                        </div>
+                        <h4 class="font-medium">Frontend</h4>
+                        <div class="text-xs text-github-text/70 mt-2">HTML, CSS, React, Tailwind CSS</div>
+                    </div>
+
+                    <!-- Cloud -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-orange-500/30 transition-all duration-300">
+                        <div class="flex gap-2 items-center justify-center mb-6">
+                            <i class="fab fa-aws text-3xl text-orange-400"></i>
+                            <i class="fas fa-cloud text-2xl text-blue-400 ml-1"></i>
+                        </div>
+                        <h4 class="font-medium">Cloud Services</h4>
+                        <div class="text-xs text-github-text/70 mt-2">AWS, Heroku</div>
+                    </div>
+
+                    <!-- Version Control -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-purple-500/30 transition-all duration-300">
+                        <div class="flex gap-2 items-center justify-center mb-6">
+                            <i class="fab fa-git-alt text-2xl text-orange-600"></i>
+                            <i class="fab fa-github text-2xl text-github-text"></i>
+                        </div>
+                        <h4 class="font-medium">Version Control</h4>
+                        <div class="text-xs text-github-text/70 mt-2">Git, GitHub</div>
+                    </div>
+
+                    <!-- Tools -->
+                    <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 hover:border-blue-500/30 transition-all duration-300">
+                        <div class="flex gap-2 items-center justify-center mb-6">
+                            <i class="fas fa-tools text-2xl text-blue-400"></i>
+                            <i class="fas fa-code text-2xl text-purple-400 ml-1"></i>
+                        </div>
+                        <h4 class="font-medium">Development Tools</h4>
+                        <div class="text-xs text-github-text/70 mt-2">IntelliJ IDEA, VS Code, Postman</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills progress circular bars -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 animate-fade-in" style="animation-delay: 0.9s">
+                <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center border border-github-border/20">
+                    <div class="relative w-32 h-32 mb-5">
+                        <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle class="text-github-dark-secondary" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50"/>
+                            <circle class="text-blue-400" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" stroke-dasharray="283" stroke-dashoffset="40"/>
+                        </svg>
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                            <span class="text-3xl font-bold text-blue-400">85%</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold">Backend Development</h4>
+                    <p class="text-github-text/80 text-sm mt-2">Java Enterprise & Microservices</p>
+                </div>
+
+                <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center border border-github-border/20">
+                    <div class="relative w-32 h-32 mb-5">
+                        <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle class="text-github-dark-secondary" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50"/>
+                            <circle class="text-purple-500" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" stroke-dasharray="283" stroke-dashoffset="90"/>
+                        </svg>
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                            <span class="text-3xl font-bold text-purple-500">70%</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold">Frontend Development</h4>
+                    <p class="text-github-text/80 text-sm mt-2">UI/UX & Interactive Applications</p>
+                </div>
+
+                <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center border border-github-border/20">
+                    <div class="relative w-32 h-32 mb-5">
+                        <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle class="text-github-dark-secondary" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50"/>
+                            <circle class="text-green-500" stroke-width="8" stroke="currentColor" fill="transparent" r="45" cx="50" cy="50" stroke-dasharray="283" stroke-dashoffset="60"/>
+                        </svg>
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                            <span class="text-3xl font-bold text-green-500">80%</span>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold">Cloud & DevOps</h4>
+                    <p class="text-github-text/80 text-sm mt-2">Deployment & CI/CD Integration</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <style>
+        @keyframes backgroundShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .bg-size-200 {
+            background-size: 200% auto;
+        }
+
+        .animate-backgroundShine {
+            animation: backgroundShine 4s linear infinite;
+        }
+    </style>
 </section>
 
-<!-- Project Modal Template -->
-<div id="project-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" x-data="{ isOpen: false }"
-     x-show="isOpen" @keydown.escape.window="isOpen = false" x-cloak>
-    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-all duration-500"
-         id="modal-backdrop" @click="isOpen = false"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-300"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"></div>
-    <div class="relative w-full max-w-5xl max-h-[90vh] mx-auto glass-modal rounded-xl shadow-2xl overflow-hidden glow-border"
-         x-transition:enter="transition ease-out duration-400"
-         x-transition:enter-start="opacity-0 transform scale-95"
-         x-transition:enter-end="opacity-100 transform scale-100"
-         x-transition:leave="transition ease-in duration-300"
-         x-transition:leave-start="opacity-100 transform scale-100"
-         x-transition:leave-end="opacity-0 transform scale-95">
+
+<!-- Project Modal (Vanilla JS implementation) -->
+<div id="project-modal" class="modal">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-container glass-modal rounded-xl shadow-2xl overflow-hidden glow-border">
         <!-- Modal Close Button -->
-        <button id="modal-close" @click="isOpen = false" class="absolute top-5 right-5 text-github-text z-30 bg-github-dark/50 hover:bg-github-dark w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:rotate-90 backdrop-blur-md border border-github-border/30">
+        <button id="modal-close" class="absolute top-5 right-5 text-github-text z-30 bg-github-dark/50 hover:bg-github-dark w-10 h-10 rounded-full flex items-center justify-center border border-github-border/30">
             <i class="fas fa-times"></i>
         </button>
 
@@ -630,172 +1080,405 @@
 </div>
 
 <!-- Footer with Glassmorphism -->
-<footer class="glass-nav border-t border-github-border/30 mt-20 py-12">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div>
-                <h2 class="text-2xl font-bold flex items-center gap-3">
-                    <div class="h-8 w-8 rounded bg-github-accent flex items-center justify-center">
-                        <i class="fas fa-code text-white text-sm"></i>
+<!-- Enhanced Footer with Glassmorphism -->
+<footer class="relative mt-20 overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-blue-500/50"></div>
+    <div class="absolute -top-40 left-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-20 right-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+    <!-- Main footer content -->
+    <div class="glass-nav border-t border-github-border/30 py-16 content-layer backdrop-blur-md relative z-10">
+        <div class="container mx-auto px-6">
+            <!-- Top section with logo and links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <!-- Brand column -->
+                <div class="col-span-1 md:col-span-1 lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                            <i class="fab fa-java text-white"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-size-200 animate-backgroundShine">
+                            Java Portfolio
+                        </h2>
                     </div>
-                    <span class="gradient-text">Web Portfolio</span>
-                </h2>
-                <p class="mt-4 text-github-text/70">Creating innovative web experiences with modern technologies.</p>
+                    <p class="text-github-text/70 mb-5 leading-relaxed">
+                        Creating enterprise Java solutions with modern frameworks and scalable architecture.
+                    </p>
+                    <div class="flex gap-5 mt-4">
+                        <a href="#" class="group relative">
+                            <div class="absolute inset-0 bg-github-accent rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
+                            <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-github-accent/50 group-hover:translate-y-[-3px]">
+                                <i class="fab fa-github text-github-text/90 group-hover:text-github-accent transition-all duration-300"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="group relative">
+                            <div class="absolute inset-0 bg-blue-500 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
+                            <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-blue-500/50 group-hover:translate-y-[-3px]">
+                                <i class="fab fa-linkedin-in text-github-text/90 group-hover:text-blue-500 transition-all duration-300"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="group relative">
+                            <div class="absolute inset-0 bg-blue-400 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
+                            <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-blue-400/50 group-hover:translate-y-[-3px]">
+                                <i class="fab fa-twitter text-github-text/90 group-hover:text-blue-400 transition-all duration-300"></i>
+                            </div>
+                        </a>
+                        <a href="#" class="group relative">
+                            <div class="absolute inset-0 bg-purple-500 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
+                            <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-purple-500/50 group-hover:translate-y-[-3px]">
+                                <i class="fas fa-envelope text-github-text/90 group-hover:text-purple-500 transition-all duration-300"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact form column -->
+                <div class="col-span-1 md:col-span-3 lg:col-span-1">
+                    <h3 class="text-lg font-semibold text-github-text mb-5 flex items-center gap-2">
+                        <i class="fas fa-paper-plane text-blue-400"></i> Get In Touch
+                    </h3>
+                    <div class="glass-card rounded-lg p-5 border border-github-border/30">
+                        <div class="mb-4">
+                            <label class="text-sm text-github-text/70 mb-1 block">Email</label>
+                            <input type="email" placeholder="Your email" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm">
+                        </div>
+                        <div class="mb-4">
+                            <label class="text-sm text-github-text/70 mb-1 block">Message</label>
+                            <textarea placeholder="Your message" rows="3" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm"></textarea>
+                        </div>
+                        <button class="w-full glass-button bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 text-blue-400 px-4 py-2 rounded transition-all duration-300 flex items-center justify-center gap-2">
+                            <span>Send Message</span>
+                            <i class="fas fa-paper-plane text-sm"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex gap-8">
-                <a href="#" class="text-github-text/70 hover:text-github-accent transition-all duration-300 hover:-translate-y-1 transform">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-                <a href="#" class="text-github-text/70 hover:text-github-accent transition-all duration-300 hover:-translate-y-1 transform">
-                    <i class="fab fa-linkedin text-xl"></i>
-                </a>
-                <a href="#" class="text-github-text/70 hover:text-github-accent transition-all duration-300 hover:-translate-y-1 transform">
-                    <i class="fab fa-twitter text-xl"></i>
-                </a>
-                <a href="#" class="text-github-text/70 hover:text-github-accent transition-all duration-300 hover:-translate-y-1 transform">
-                    <i class="fas fa-envelope text-xl"></i>
-                </a>
-            </div>
-        </div>
-        <div class="border-t border-github-border/30 mt-8 pt-8 text-center">
-            <div class="text-github-text/50 text-sm">
-                © 2025 Web Portfolio. All rights reserved.
-            </div>
-            <div class="flex justify-center gap-6 mt-4 text-xs text-github-text/50">
-                <a href="#" class="hover:text-github-accent transition-all duration-300">Privacy Policy</a>
-                <a href="#" class="hover:text-github-accent transition-all duration-300">Terms of Service</a>
-                <a href="#" class="hover:text-github-accent transition-all duration-300">Cookie Policy</a>
+            <!-- Bottom section with legal info -->
+            <div class="border-t border-github-border/30 mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-github-text/50 text-sm">
+                    <div class="flex items-center gap-2 justify-center md:justify-start">
+                        <i class="far fa-copyright"></i>
+                        <span>2025 Java Portfolio by</span>
+                        <a href="#" class="text-blue-400 hover:underline">Vin-it-9</a>
+                    </div>
+                    <div class="text-xs mt-1 text-github-text/40">
+                        Made with <i class="fas fa-heart text-red-500"></i> and Java
+                    </div>
+                </div>
+
+                <div class="flex justify-center md:justify-end gap-6 text-xs text-github-text/50">
+                    <a href="#" class="hover:text-blue-400 transition-all duration-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-400 transition-all duration-300">Terms of Service</a>
+                    <a href="#" class="hover:text-blue-400 transition-all duration-300">Cookie Policy</a>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 opacity-0 invisible transition-all duration-300 h-10 w-10 rounded-full glass-card border border-github-border/30 flex items-center justify-center backdrop-blur-md hover:border-blue-500/50 z-50 group">
+        <i class="fas fa-chevron-up text-github-text/70 group-hover:text-blue-400 transition-all duration-300"></i>
+    </button>
+
+    <!-- Script for back to top button -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopButton = document.getElementById('back-to-top');
+
+            function toggleBackToTopButton() {
+                if (window.scrollY > 500) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            }
+
+            window.addEventListener('scroll', toggleBackToTopButton);
+
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            toggleBackToTopButton();
+        });
+    </script>
+
+    <style>
+        .bg-size-200 {
+            background-size: 200% auto;
+        }
+
+        .animate-backgroundShine {
+            animation: backgroundShine 4s linear infinite;
+        }
+
+        @keyframes backgroundShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
 </footer>
-
-<!-- Project Card Template (Hidden, used by JavaScript) -->
+<!-- Enhanced Project Card Template for Java Developer Portfolio -->
 <template id="project-card-template">
-    <div class="project-card glass-card rounded-xl overflow-hidden cursor-pointer transition-all duration-500">
+    <div class="project-card glass-card rounded-xl overflow-hidden cursor-pointer transition-all duration-500 border border-github-border/30 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10">
         <div class="relative group">
+            <!-- Image container with improved hover effect -->
             <div class="project-img-container h-60 overflow-hidden">
-                <img class="project-img w-full h-full object-cover transform transition-all duration-700 group-hover:scale-110" src="" alt="">
+                <img class="project-img w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="" alt="">
             </div>
-            <!-- Glassmorphism overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-github-dark to-transparent opacity-80"></div>
 
-            <!-- Optional "New" badge -->
-            <div class="new-badge hidden">New</div>
+            <!-- Enhanced glassmorphism overlay with gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-github-dark via-github-dark/70 to-transparent opacity-90"></div>
 
-            <!-- Bottom info -->
+            <!-- Pattern overlay for texture -->
+            <div class="absolute inset-0 opacity-20 bg-pattern pointer-events-none"></div>
+
+            <!-- Enhanced "New" badge with glow effect -->
+            <div class="new-badge hidden absolute top-4 right-4 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-medium rounded-full shadow-lg shadow-blue-500/20 border border-blue-400/20 flex items-center gap-1.5">
+                <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                <span>New</span>
+            </div>
+
+            <!-- Bottom info with improved styling -->
             <div class="absolute bottom-0 left-0 p-5 w-full">
-                <h2 class="project-title text-xl font-semibold mb-1 text-white group-hover:text-github-accent transition-all duration-300"></h2>
+                <h2 class="project-title text-xl font-semibold mb-2 text-white group-hover:text-blue-300 transition-all duration-300"></h2>
                 <div class="project-tech flex flex-wrap gap-2 mb-3">
                     <!-- Tech badges will be added here -->
                 </div>
             </div>
         </div>
-        <div class="p-5 bg-gradient-to-b from-transparent to-github-dark-secondary/30">
+
+        <!-- Card bottom with enhanced styling -->
+        <div class="p-5 bg-gradient-to-b from-github-dark-secondary/50 to-github-dark-secondary/70">
             <p class="project-summary text-github-text/80 text-sm mb-4 line-clamp-2"></p>
             <div class="flex justify-between items-center">
+                <!-- Project links with enhanced hover effects -->
                 <div class="flex gap-4">
-                    <a href="#" class="project-github-link text-github-text hover:text-github-accent transform hover:scale-110 transition-all duration-300" target="_blank">
-                        <i class="fab fa-github text-lg"></i>
+                    <a href="#" class="project-github-link h-9 w-9 flex items-center justify-center rounded-full bg-github-dark-secondary/50 border border-github-border/20 hover:border-github-accent/50 hover:bg-github-dark-secondary/80 transition-all duration-300" target="_blank" title="View Source Code">
+                        <i class="fab fa-github text-github-text hover:text-github-accent transition-colors duration-300"></i>
                     </a>
-                    <a href="#" class="project-live-link text-github-text hover:text-github-accent transform hover:scale-110 transition-all duration-300" target="_blank">
-                        <i class="fas fa-external-link-alt text-lg"></i>
+                    <a href="#" class="project-live-link h-9 w-9 flex items-center justify-center rounded-full bg-github-dark-secondary/50 border border-github-border/20 hover:border-blue-500/50 hover:bg-github-dark-secondary/80 transition-all duration-300" target="_blank" title="View Live Demo">
+                        <i class="fas fa-external-link-alt text-github-text hover:text-blue-400 transition-colors duration-300"></i>
                     </a>
                 </div>
-                <button class="project-open-btn glass-button bg-gradient-to-r from-github-accent/80 to-blue-500/80 hover:from-github-accent hover:to-blue-500 text-white px-5 py-2 rounded-md text-sm transition-all duration-300">
-                    View Details
+
+                <!-- Enhanced call-to-action button -->
+                <button class="project-open-btn glass-button bg-gradient-to-r from-blue-600/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-600/90 text-white px-5 py-2.5 rounded-lg text-sm transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-blue-500/20 flex items-center gap-2 border border-blue-500/20 hover:border-blue-500/40">
+                    <span>View Details</span>
+                    <i class="fas fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
                 </button>
             </div>
         </div>
     </div>
 </template>
 
-<!-- Modal Template (Hidden, used by JavaScript) -->
+<style>
+    /* Pattern background for cards */
+    .bg-pattern {
+        background-image: linear-gradient(rgba(88, 166, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88, 166, 255, 0.025) 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
+
+    /* Ensure tech badges display properly */
+    .project-tech span {
+        backdrop-filter: blur(5px) !important;
+        -webkit-backdrop-filter: blur(5px) !important;
+        z-index: 20 !important;
+    }
+</style>
+
+<!-- Template for Modal Content -->
+<!-- Enhanced Modal Content Template for Java Portfolio -->
 <template id="modal-content-template">
     <div class="modal-header">
-        <!-- Modal Hero Section -->
-        <div class="relative modal-img-container rounded-lg overflow-hidden mb-6 border border-github-border/20">
-            <img class="modal-img w-full h-72 object-cover" src="" alt="">
-            <div class="absolute inset-0 bg-gradient-to-t from-github-dark/95 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-6">
-                <h2 class="modal-title text-3xl font-bold mb-4 text-white gradient-text"></h2>
-                <div class="modal-tech-tags flex flex-wrap gap-2">
+        <!-- Enhanced Modal Hero Section -->
+        <div class="relative modal-img-container rounded-xl overflow-hidden mb-8 border border-blue-500/30 shadow-lg shadow-blue-500/10">
+
+
+            <img class="modal-img w-full h-80 object-cover transition-all duration-700" src="" alt="">
+
+            <!-- Enhanced gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-github-dark via-github-dark/80 to-transparent"></div>
+
+            <!-- Pattern overlay for texture -->
+            <div class="absolute inset-0 opacity-20 bg-pattern pointer-events-none"></div>
+
+            <!-- Enhanced project title area -->
+            <div class="absolute bottom-0 left-0 p-8 w-full">
+                <h2 class="modal-title text-3xl md:text-4xl font-bold mb-4 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-white to-blue-300"></h2>
+                <div class="modal-tech-tags flex flex-wrap gap-2 mb-2">
                     <!-- Tech tags will be added here -->
                 </div>
             </div>
         </div>
 
-        <div class="modal-body space-y-10">
-            <div class="fade-in">
-                <h3 class="text-xl font-semibold mb-4 flex items-center gap-3 text-github-text">
-                    <div class="w-8 h-8 rounded-lg bg-github-accent/10 flex items-center justify-center">
-                        <i class="fas fa-info-circle text-github-accent"></i>
+        <div class="modal-body space-y-12">
+            <!-- About This Project -->
+            <div class="animate-fade-in">
+                <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                        <i class="fas fa-info-circle text-blue-400"></i>
                     </div>
                     About This Project
                 </h3>
-                <div class="modal-description text-github-text/90 leading-relaxed glass-card p-6 rounded-lg"></div>
+                <div class="modal-description text-github-text/90 leading-relaxed glass-card p-6 rounded-lg border border-github-border/30 shadow-inner">
+                    <!-- Description will be added here by JavaScript -->
+                </div>
             </div>
 
-            <div class="fade-in">
-                <h3 class="text-xl font-semibold mb-4 flex items-center gap-3 text-github-text">
-                    <div class="w-8 h-8 rounded-lg bg-github-accent/10 flex items-center justify-center">
-                        <i class="fas fa-tools text-github-accent"></i>
+            <!-- Tech Stack with circular progress indicators -->
+            <div class="animate-fade-in delay-100">
+                <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
+                        <i class="fas fa-tools text-purple-400"></i>
                     </div>
-                    Tech Stack
+                    Technology Stack
                 </h3>
-                <div class="modal-tech-icons grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div class="modal-tech-icons grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
                     <!-- Tech icons will be added here by JavaScript -->
                 </div>
             </div>
 
-            <div class="fade-in">
-                <h3 class="text-xl font-semibold mb-4 flex items-center gap-3 text-github-text">
-                    <div class="w-8 h-8 rounded-lg bg-github-accent/10 flex items-center justify-center">
-                        <i class="fas fa-link text-github-accent"></i>
+            <!-- Key Features with enhanced styling -->
+            <div class="animate-fade-in delay-200">
+                <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
+                    <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                        <i class="fas fa-lightbulb text-green-400"></i>
                     </div>
-                    Project Links
+                    Key Features
                 </h3>
-                <div class="modal-links flex flex-wrap gap-4">
-                    <a href="#" class="modal-github-link glass-card px-5 py-3 rounded-lg flex items-center gap-3 text-github-text transition-all duration-300 hover:transform hover:-translate-y-1">
-                        <i class="fab fa-github"></i>
-                        <span>Source Code</span>
-                    </a>
-                    <a href="#" class="modal-live-link bg-gradient-to-r from-github-accent to-blue-500 hover:from-github-accent/90 hover:to-blue-500/90 px-5 py-3 rounded-lg flex items-center gap-3 text-white transition-all duration-300 hover:transform hover:-translate-y-1">
-                        <i class="fas fa-external-link-alt"></i>
-                        <span>Live Demo</span>
-                    </a>
-                </div>
+                <ul class="modal-features space-y-4 glass-card p-6 rounded-lg border border-github-border/30">
+                    <!-- Features will be added here by JavaScript -->
+                </ul>
             </div>
 
-            <div class="fade-in">
-                <h3 class="text-xl font-semibold mb-4 flex items-center gap-3 text-github-text">
-                    <div class="w-8 h-8 rounded-lg bg-github-accent/10 flex items-center justify-center">
-                        <i class="fas fa-images text-github-accent"></i>
+            <!-- Project Gallery with enhanced lightbox-style presentation -->
+            <div class="animate-fade-in delay-300">
+                <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                        <i class="fas fa-images text-blue-400"></i>
                     </div>
                     Project Gallery
                 </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 modal-images">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 modal-images">
                     <!-- Additional images will be added here by JavaScript -->
                 </div>
             </div>
 
-            <div class="fade-in">
-                <h3 class="text-xl font-semibold mb-4 flex items-center gap-3 text-github-text">
-                    <div class="w-8 h-8 rounded-lg bg-github-accent/10 flex items-center justify-center">
-                        <i class="fas fa-lightbulb text-github-accent"></i>
+            <!-- Project Links with enhanced buttons -->
+            <div class="animate-fade-in delay-400">
+                <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                        <i class="fas fa-link text-blue-400"></i>
                     </div>
-                    Key Features
+                    Project Links
                 </h3>
-                <ul class="modal-features space-y-3 list-none glass-card p-6 rounded-lg">
-                    <!-- Features will be added here by JavaScript -->
-                </ul>
+                <div class="modal-links flex flex-wrap gap-4">
+                    <a href="#" class="modal-github-link glass-card px-6 py-4 rounded-lg flex items-center gap-3 text-github-text hover:text-github-accent transition-all duration-300 border border-github-border/30 hover:border-github-accent/40 group">
+                        <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center">
+                            <i class="fab fa-github text-xl group-hover:text-github-accent transition-all duration-300"></i>
+                        </div>
+                        <div>
+                            <span class="font-medium block">Source Code</span>
+                            <span class="text-xs text-github-text/60">View on GitHub</span>
+                        </div>
+                    </a>
+                    <a href="#" class="modal-live-link bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-4 rounded-lg flex items-center gap-3 text-white transition-all duration-300 shadow-lg shadow-blue-500/20 group">
+                        <div class="h-10 w-10 rounded-full bg-white/10 flex items-center justify-center">
+                            <i class="fas fa-external-link-alt text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="font-medium block">Live Demo</span>
+                            <span class="text-xs text-white/80">Experience the application</span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
+
+        <!-- Call to action section -->
+        <div class="mt-12 pt-8 border-t border-github-border/30 flex flex-col md:flex-row items-center justify-between gap-5">
+            <div class="text-github-text/80">
+                <h4 class="font-medium text-lg mb-1">Interested in similar solutions?</h4>
+                <p class="text-sm text-github-text/60">Let's discuss how I can help with your enterprise Java projects</p>
+            </div>
+            <button class="glass-button bg-gradient-to-r from-blue-600/20 to-purple-500/20 px-6 py-3 rounded-lg font-medium border border-blue-500/20 hover:border-blue-500/40 transition-all duration-300 group flex items-center gap-3">
+                <span class="text-blue-400">Contact Me</span>
+                <i class="fas fa-paper-plane text-blue-400 transition-transform duration-300 group-hover:translate-x-1"></i>
+            </button>
+        </div>
     </div>
+
+    <style>
+        /* Pattern background for modal */
+        .bg-pattern {
+            background-image: linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Feature item styling */
+        .modal-features li {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .modal-features li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.375rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50%;
+        }
+
+        .modal-features li::after {
+            content: '✓';
+            position: absolute;
+            left: 0.28rem;
+            top: 0.15rem;
+            font-size: 0.8rem;
+            color: #3b82f6;
+        }
+
+        /* Enhanced image hover effects */
+        .modal-images img {
+            transition: all 0.3s ease;
+        }
+
+        .modal-images img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Modal title gradient animation */
+        .modal-title {
+            background-size: 200% auto;
+            animation: textShine 3s linear infinite;
+        }
+
+        @keyframes textShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+    </style>
 </template>
 
-<!-- JavaScript file will be linked here -->
+<!-- JavaScript file -->
+<script src="data.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
