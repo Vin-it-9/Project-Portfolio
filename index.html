@@ -560,10 +560,7 @@
                 <div class="text-3xl font-bold text-purple-400 mb-1 counter" data-target="8">0</div>
                 <div class="text-sm text-github-text/70 uppercase tracking-wider">Frameworks</div>
             </div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-blue-400 mb-1 counter" data-target="4">0</div>
-                <div class="text-sm text-github-text/70 uppercase tracking-wider">Years Exp.</div>
-            </div>
+
         </div>
     </div>
 
@@ -771,7 +768,7 @@
                     <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-blue-500/30 transition-all duration-300">
                         <div class="mb-5">
                             <div class="mb-5">
-                                <img src="https://objectcomputing.com/files/9316/2275/4423/micronaut_stacked_white.svg" alt="Micronaut Logo" class="w-18 h-16" />
+                                <img src="https://objectcomputing.com/files/9316/2275/4423/micronaut_stacked_white.svg" alt="Micronaut Logo" class="w-16 h-16" />
                             </div>
                         </div>
                         <h4 class="font-medium text-lg">Micronaut</h4>
@@ -1036,25 +1033,19 @@
                         Creating enterprise Java solutions with modern frameworks and scalable architecture.
                     </p>
                     <div class="flex gap-5 mt-4">
-                        <a href="#" class="group relative">
+                        <a href="https://github.com/Vin-it-9/" class="group relative">
                             <div class="absolute inset-0 bg-github-accent rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
                             <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-github-accent/50 group-hover:translate-y-[-3px]">
                                 <i class="fab fa-github text-github-text/90 group-hover:text-github-accent transition-all duration-300"></i>
                             </div>
                         </a>
-                        <a href="#" class="group relative">
+                        <a href="https://www.linkedin.com/in/vinit-shinde-920531254/" class="group relative">
                             <div class="absolute inset-0 bg-blue-500 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
                             <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-blue-500/50 group-hover:translate-y-[-3px]">
                                 <i class="fab fa-linkedin-in text-github-text/90 group-hover:text-blue-500 transition-all duration-300"></i>
                             </div>
                         </a>
-                        <a href="#" class="group relative">
-                            <div class="absolute inset-0 bg-blue-400 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
-                            <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-blue-400/50 group-hover:translate-y-[-3px]">
-                                <i class="fab fa-twitter text-github-text/90 group-hover:text-blue-400 transition-all duration-300"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="group relative">
+                        <a href="mailto:vineetshinde2559@gmail.com" class="group relative">
                             <div class="absolute inset-0 bg-purple-500 rounded-full opacity-0 scale-0 transition-all duration-300 group-hover:opacity-20 group-hover:scale-150"></div>
                             <div class="h-10 w-10 rounded-full bg-github-dark-secondary/60 flex items-center justify-center border border-github-border/30 transition-all duration-300 group-hover:border-purple-500/50 group-hover:translate-y-[-3px]">
                                 <i class="fas fa-envelope text-github-text/90 group-hover:text-purple-500 transition-all duration-300"></i>
@@ -1064,25 +1055,54 @@
                 </div>
 
                 <!-- Contact form column -->
-                <div class="col-span-1 md:col-span-3 lg:col-span-1">
-                    <h3 class="text-lg font-semibold text-github-text mb-5 flex items-center gap-2">
-                        <i class="fas fa-paper-plane text-blue-400"></i> Get In Touch
-                    </h3>
-                    <div class="glass-card rounded-lg p-5 border border-github-border/30">
-                        <div class="mb-4">
-                            <label class="text-sm text-github-text/70 mb-1 block">Email</label>
-                            <input type="email" placeholder="Your email" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm">
-                        </div>
-                        <div class="mb-4">
-                            <label class="text-sm text-github-text/70 mb-1 block">Message</label>
-                            <textarea placeholder="Your message" rows="3" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm"></textarea>
-                        </div>
-                        <button class="w-full glass-button bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 text-blue-400 px-4 py-2 rounded transition-all duration-300 flex items-center justify-center gap-2">
-                            <span>Send Message</span>
-                            <i class="fas fa-paper-plane text-sm"></i>
-                        </button>
+                <form id="contact-form" action="https://formsubmit.co/ajax/vineetshinde2559@gmail.com" method="POST" class="glass-card rounded-lg p-5 border border-github-border/30">
+                    <!-- Hidden config -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+
+                    <div class="mb-4">
+                        <label class="text-sm text-github-text/70 mb-1 block">Email</label>
+                        <input type="email" name="email" required placeholder="Your email" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm">
                     </div>
-                </div>
+                    <div class="mb-4">
+                        <label class="text-sm text-github-text/70 mb-1 block">Message</label>
+                        <textarea name="message" required placeholder="Your message" rows="3" class="w-full bg-github-dark-secondary/50 border border-github-border/30 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-sm"></textarea>
+                    </div>
+                    <button type="submit" class="w-full glass-button bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/20 hover:border-blue-500/40 text-blue-400 px-4 py-2 rounded transition-all duration-300 flex items-center justify-center gap-2">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+
+                    <!-- Success message -->
+                    <div id="form-status" class="mt-4 text-green-400 text-sm hidden">Thanks! Your message was sent successfully.</div>
+                </form>
+
+                <script>
+                    const form = document.getElementById("contact-form");
+                    const status = document.getElementById("form-status");
+
+                    form.addEventListener("submit", function (e) {
+                        e.preventDefault();
+
+                        fetch(form.action, {
+                            method: "POST",
+                            body: new FormData(form),
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        }).then(response => {
+                            if (response.ok) {
+                                form.reset();
+                                status.classList.remove("hidden");
+                            } else {
+                                alert("Oops! There was a problem.");
+                            }
+                        }).catch(error => {
+                            alert("Error sending message.");
+                        });
+                    });
+                </script>
+
             </div>
 
             <!-- Bottom section with legal info -->
