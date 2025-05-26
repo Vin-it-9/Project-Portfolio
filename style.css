@@ -1,0 +1,412 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Enhanced background elements - Fixed positioning and z-index */
+.bg-blur-1 {
+    position: fixed;
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(88, 166, 255,0.4) 0%, rgba(88, 166, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
+    filter: blur(50px);
+    top: 5%;
+    right: -10%;
+    z-index: 0;
+    animation: floatSlow 10s ease-in-out infinite;
+    transform-origin: center;
+    pointer-events: none;
+}
+
+.bg-blur-2 {
+    position: fixed;
+    width: 30vw;
+    height: 30vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(165, 92, 255, 0.35) 0%, rgba(165, 92, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
+    filter: blur(60px);
+    bottom: 10%;
+    left: -5%;
+    z-index: 0;
+    animation: floatSlow 5s ease-in-out infinite alternate;
+    transform-origin: center;
+    animation-delay: -5s;
+    pointer-events: none;
+}
+
+.bg-blur-3 {
+    position: fixed;
+    width: 25vw;
+    height: 25vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 123, 123, 0.3) 0%, rgba(255, 123, 123, 0.03) 50%, rgba(0, 0, 0, 0) 80%);
+    filter: blur(40px);
+    top: 60%;
+    right: 20%;
+    z-index: 0;
+    animation: floatSlow 2s ease-in-out infinite;
+    transform-origin: center;
+    animation-delay: -10s;
+    pointer-events: none;
+}
+
+.grid-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(88, 166, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+}
+
+/* Enhanced glass effects */
+.glass-nav {
+    background-color: rgba(13, 17, 23, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(88, 166, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(22, 27, 34, 0.7) 0%, rgba(13, 17, 23, 0.6) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(48, 54, 61, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+.glass-modal {
+    background: linear-gradient(135deg, rgba(22, 27, 34, 0.95) 0%, rgba(13, 17, 23, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(48, 54, 61, 0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.glass-button {
+    background: rgba(22, 27, 34, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(48, 54, 61, 0.5);
+}
+
+.glass-button:hover {
+    background: rgba(22, 27, 34, 0.9);
+    border: 1px solid rgba(88, 166, 255, 0.4);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Glowing gradient borders */
+.glow-border {
+    position: relative;
+    border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+.glow-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #58a6ff, #bc96e6, #58a6ff);
+    background-size: 400% 400%;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: backgroundShine 8s linear infinite;
+}
+
+/* Gradient text effect */
+.gradient-text {
+    background: linear-gradient(90deg, #58a6ff, #bc96e6, #58a6ff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: backgroundShine 2s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(13, 17, 23, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(48, 54, 61, 0.8);
+    border-radius: 5px;
+    border: 1px solid rgba(88, 166, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(88, 166, 255, 0.2);
+}
+
+/* Hide horizontal scrollbar */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(48, 54, 61, 0.8) rgba(13, 17, 23, 0.8);
+}
+
+/* Animation utility classes with improved opacity start values */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Animation for navbar on scroll */
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    transition: all 0.5s ease;
+}
+
+.navbar-scrolled {
+    background-color: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.navbar-top {
+    background-color: transparent;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+/* Modal styles with improved visibility */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+@keyframes progress-blue {
+    0% { stroke-dashoffset: 283; }
+    100% { stroke-dashoffset: 40; }
+}
+
+@keyframes progress-purple {
+    0% { stroke-dashoffset: 283; }
+    100% { stroke-dashoffset: 90; }
+}
+
+@keyframes progress-green {
+    0% { stroke-dashoffset: 283; }
+    100% { stroke-dashoffset: 60; }
+}
+
+.animate-progress-blue {
+    animation: progress-blue 2s ease-out forwards 0.5s;
+}
+
+.animate-progress-purple {
+    animation: progress-purple 2s ease-out forwards 0.7s;
+}
+
+.animate-progress-green {
+    animation: progress-green 2s ease-out forwards 0.9s;
+}
+
+@keyframes ping-slow {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.5); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animate-ping-slow {
+    animation: ping-slow 4s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+    .skill-card {
+        padding: 1rem;
+    }
+
+    .skill-chart {
+        width: 6rem;
+        height: 6rem;
+    }
+}
+
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 0;
+}
+
+.modal.active .modal-backdrop {
+    opacity: 1;
+}
+
+.modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 64rem;
+    max-height: 90vh;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+.modal.active .modal-container {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Make all content have proper z-index */
+.content-layer {
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix for hover effects */
+.glass-card {
+    transition: all 0.4s ease;
+}
+
+/* Make sure cards show up properly */
+.project-card img {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure visible children */
+.hidden {
+    display: none !important;
+}
+
+/* Fix animation issues */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improved fade in animation */
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+@keyframes expand-width {
+    from { width: 0; }
+    to { width: 32%; }
+}
+
+.bg-size-200 {
+    background-size: 200% auto;
+}
+
+.animate-backgroundShine {
+    animation: backgroundShine 4s linear infinite;
+}
+
+@keyframes backgroundShine {
+    to {
+        background-position: 200% center;
+    }
+}
+@keyframes backgroundShine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.bg-size-200 {
+    background-size: 200% auto;
+}
+
+.animate-backgroundShine {
+    animation: backgroundShine 4s linear infinite;
+}
+
+.bg-size-200 {
+    background-size: 200% auto;
+}
+
+.animate-backgroundShine {
+    animation: backgroundShine 4s linear infinite;
+}
+
+@keyframes backgroundShine {
+    to {
+        background-position: 200% center;
+    }
+}
+/* Pattern background for cards */
+.bg-pattern {
+    background-image: linear-gradient(rgba(88, 166, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 166, 255, 0.025) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Ensure tech badges display properly */
+.project-tech span {
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    z-index: 20 !important;
+}
