@@ -95,12 +95,12 @@
             width: 40vw;
             height: 40vw;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(88, 166, 255, 0.15) 0%, rgba(88, 166, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
+            background: radial-gradient(circle, rgba(88, 166, 255,0.4) 0%, rgba(88, 166, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
             filter: blur(50px);
             top: 5%;
             right: -10%;
             z-index: 0;
-            animation: floatSlow 30s ease-in-out infinite;
+            animation: floatSlow 10s ease-in-out infinite;
             transform-origin: center;
             pointer-events: none;
         }
@@ -110,12 +110,12 @@
             width: 30vw;
             height: 30vw;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(165, 92, 255, 0.15) 0%, rgba(165, 92, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
+            background: radial-gradient(circle, rgba(165, 92, 255, 0.35) 0%, rgba(165, 92, 255, 0.05) 50%, rgba(0, 0, 0, 0) 80%);
             filter: blur(60px);
             bottom: 10%;
             left: -5%;
             z-index: 0;
-            animation: floatSlow 20s ease-in-out infinite alternate;
+            animation: floatSlow 5s ease-in-out infinite alternate;
             transform-origin: center;
             animation-delay: -5s;
             pointer-events: none;
@@ -126,27 +126,15 @@
             width: 25vw;
             height: 25vw;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 123, 123, 0.1) 0%, rgba(255, 123, 123, 0.03) 50%, rgba(0, 0, 0, 0) 80%);
+            background: radial-gradient(circle, rgba(255, 123, 123, 0.3) 0%, rgba(255, 123, 123, 0.03) 50%, rgba(0, 0, 0, 0) 80%);
             filter: blur(40px);
             top: 60%;
             right: 20%;
             z-index: 0;
-            animation: floatSlow 25s ease-in-out infinite;
+            animation: floatSlow 2s ease-in-out infinite;
             transform-origin: center;
             animation-delay: -10s;
             pointer-events: none;
-        }
-
-        .noise-texture {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj4KICA8ZmlsdGVyIGlkPSJub2lzZSIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+CiAgICA8ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjAuMDEiIHN0aXRjaFRpbGVzPSJzdGl0Y2giIG51bU9jdGF2ZXM9IjUiIHNlZWQ9IjIiIHJlc3VsdD0idHVyYnVsZW5jZSI+PC9mZVR1cmJ1bGVuY2U+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIj48L2ZlQ29sb3JNYXRyaXg+CiAgPC9maWx0ZXI+CgogIDxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAyIj48L3JlY3Q+Cjwvc3ZnPg==');
-            pointer-events: none;
-            opacity: 0.3;
-            z-index: 0;
         }
 
         .grid-pattern {
@@ -155,12 +143,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image: linear-gradient(rgba(88, 166, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(88, 166, 255, 0.1) 1px, transparent 1px);
+            background-size: 100px 100px;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.2;
+            opacity: 0.35;
         }
 
         /* Enhanced glass effects */
@@ -236,7 +224,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: backgroundShine 8s linear infinite;
+            animation: backgroundShine 2s linear infinite;
         }
 
         /* Custom scrollbar */
@@ -404,7 +392,6 @@
 <div class="bg-blur-1"></div>
 <div class="bg-blur-2"></div>
 <div class="bg-blur-3"></div>
-<div class="noise-texture"></div>
 <div class="grid-pattern"></div>
 
 <!-- Enhanced Header/Navbar -->
@@ -553,7 +540,7 @@
         <h2 class="text-4xl md:text-5xl font-bold mb-6 relative inline-block animate-fade-in" style="animation-delay: 0.2s">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 bg-size-200 animate-backgroundShine">Featured Java Projects</span>
             <!-- Animated underline -->
-            <div class="h-1 bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 w-0 mx-auto mt-2 rounded-full" style="animation: expand-width 1.5s forwards 0.8s;"></div>
+            <div class="h-1 w-0 bg-gradient-to-r from-blue-400 via-purple-500 to-blue-400 mx-auto mt-2 rounded-full" style="animation: expand-width 1.5s forwards 0.8s;"></div>
         </h2>
 
         <!-- Enhanced description with better typography and animation -->
@@ -632,7 +619,7 @@
     <style>
         @keyframes expand-width {
             from { width: 0; }
-            to { width: 100%; }
+            to { width: 32%; }
         }
 
         .bg-size-200 {
@@ -731,7 +718,7 @@
                             <i class="fab fa-js text-3xl text-yellow-400"></i>
                         </div>
                         <div>
-                            <h4 class="font-medium">JavaScript</h4>
+                            <h4 class="font-medium">JS</h4>
                            
                         </div>
                     </div>
@@ -783,30 +770,24 @@
                     <!-- Micronaut -->
                     <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-blue-500/30 transition-all duration-300">
                         <div class="mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="w-16 h-16">
-                                <path fill="#4a9425" d="M40,6C21.3,6,6,21.3,6,40s15.3,34,34,34s34-15.3,34-34S58.7,6,40,6z M40,63.5c-13,0-23.5-10.5-23.5-23.5 S27,16.5,40,16.5S63.5,27,63.5,40S53,63.5,40,63.5z"/>
-                                <path fill="#feb672" d="M24,29l16,11l16-11l-16-11L24,29z"/>
-                                <path fill="#4a9425" d="M24,40l16,11l16-11l-16-11L24,40z"/>
-                                <path fill="#feb672" d="M24,51l16,11l16-11l-16-11L24,51z"/>
-                            </svg>
+                            <div class="mb-5">
+                                <img src="https://objectcomputing.com/files/9316/2275/4423/micronaut_stacked_white.svg" alt="Micronaut Logo" class="w-18 h-16" />
+                            </div>
                         </div>
                         <h4 class="font-medium text-lg">Micronaut</h4>
                         <div class="text-xs text-github-text/70 mt-1 mb-3">Cloud-native microservices</div>
-                    
+
                     </div>
 
                     <!-- Quarkus -->
                     <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-red-500/30 transition-all duration-300">
                         <div class="mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 85 100" class="w-16 h-16">
-                                <path fill="#4695eb" d="M42.5,2.5l-40,20v55l40,20l40-20v-55L42.5,2.5z M42.5,32.5c5.5,0,10,4.5,10,10s-4.5,10-10,10s-10-4.5-10-10S37,32.5,42.5,32.5z"/>
-                                <path fill="#ff004a" d="M42.5,22.5v10c5.5,0,10,4.5,10,10s-4.5,10-10,10v10c11,0,20-9,20-20S53.5,22.5,42.5,22.5z"/>
-                            </svg>
+                            <img src="https://www.svgrepo.com/show/354245/quarkus-icon.svg" alt="Quarkus Logo" class="w-16 h-16" />
                         </div>
                         <h4 class="font-medium text-lg">Quarkus</h4>
                         <div class="text-xs text-github-text/70 mt-1 mb-3">Kubernetes-native Java</div>
-                    
                     </div>
+
 
                     <!-- Node.js -->
                     <div class="glass-card rounded-xl p-5 flex flex-col items-center justify-center text-center border border-github-border/20 aspect-square hover:border-green-500/30 transition-all duration-300">
