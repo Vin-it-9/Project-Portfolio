@@ -1,13 +1,10 @@
 
-// DOM Elements
 let projectsContainer, projectModal, modalContent, modalBackdrop, projectCardTemplate, modalContentTemplate, modalClose;
 
-// Utility function to check if the document is loaded
 function isDOMLoaded() {
     return document.readyState === 'complete' || document.readyState === 'interactive';
 }
 
-// Initialize DOM elements once document is ready
 function initDOMElements() {
     projectsContainer = document.getElementById('projects-container');
     projectModal = document.getElementById('project-modal');
@@ -17,7 +14,6 @@ function initDOMElements() {
     modalContentTemplate = document.getElementById('modal-content-template');
     modalClose = document.getElementById('modal-close');
 
-    // Make sure all elements are found
     if (!projectsContainer || !projectModal || !modalContent ||
         !modalBackdrop || !projectCardTemplate || !modalContentTemplate || !modalClose) {
         console.error('Some DOM elements could not be found');
@@ -27,22 +23,34 @@ function initDOMElements() {
     return true;
 }
 
-// Function to create tech badge elements
 function createTechBadge(tech) {
+    const fragment = document.createDocumentFragment();
+
     const badge = document.createElement('span');
     badge.className = 'px-2 py-1 text-xs rounded-full glass-card border border-github-border/30 flex items-center gap-1.5';
     badge.style.zIndex = '20';
+
+    if (!tech || typeof tech !== 'object') {
+        return badge;
+    }
+
     badge.innerHTML = `
         <i class="${tech.icon}" style="color: ${tech.color};"></i>
         <span>${tech.name}</span>
     `;
-    return badge;
+
+    fragment.appendChild(badge);
+    return fragment;
 }
 
-// Function to create tech icon elements for modal
 function createTechIcon(tech) {
     const techEl = document.createElement('div');
     techEl.className = 'flex flex-col items-center glass-card p-3 rounded-lg transition-all duration-300';
+
+    if (!tech || typeof tech !== 'object') {
+        return techEl;
+    }
+
     techEl.innerHTML = `
         <i class="${tech.icon}" style="color: ${tech.color}; font-size: 2rem; margin-bottom: 0.5rem;"></i>
         <span class="text-xs">${tech.name}</span>
@@ -50,50 +58,54 @@ function createTechIcon(tech) {
     return techEl;
 }
 
-// Function to generate project cards
 function renderProjects() {
     if (!projectsContainer) return;
 
-    projectsContainer.innerHTML = ''; // Clear container
+    const fragment = document.createDocumentFragment();
+
+    if (!projectsData || !Array.isArray(projectsData)) {
+        console.error('Projects data not found or invalid');
+        return;
+    }
 
     projectsData.forEach((project, index) => {
         try {
-            // Clone the template
             const projectCard = projectCardTemplate.content.cloneNode(true);
             const card = projectCard.querySelector('.project-card');
-
-            // Set project data
             card.setAttribute('data-project-id', project.id);
-
             const img = projectCard.querySelector('.project-img');
-            img.src = project.image;
-            img.alt = project.title;
+            if (img) {
+                img.src = project.image;
+                img.alt = project.title;
+                img.loading = 'lazy';
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
+                };
+            }
 
             projectCard.querySelector('.project-title').textContent = project.title;
             projectCard.querySelector('.project-summary').textContent = project.summary;
 
-            // Show "New" badge if project is new
             const newBadge = projectCard.querySelector('.new-badge');
             if (project.isNew && newBadge) {
                 newBadge.classList.remove('hidden');
             }
 
-            // Add tech badges
             const techContainer = projectCard.querySelector('.project-tech');
             if (techContainer) {
+                techContainer.innerHTML = '';
                 project.technologies.slice(0, 3).forEach(tech => {
                     techContainer.appendChild(createTechBadge(tech));
                 });
             }
 
-            // Set links
             const githubLink = projectCard.querySelector('.project-github-link');
             if (githubLink) githubLink.href = project.links.github;
 
             const liveLink = projectCard.querySelector('.project-live-link');
             if (liveLink) liveLink.href = project.links.live;
 
-            // Add event listeners
             const openBtn = projectCard.querySelector('.project-open-btn');
             if (openBtn) {
                 openBtn.addEventListener('click', (e) => {
@@ -103,47 +115,57 @@ function renderProjects() {
                 });
             }
 
-            // Make the whole card clickable (except links)
             if (card) {
                 card.addEventListener('click', (e) => {
-                    // Only open modal if click wasn't on a link or button
                     if (!e.target.closest('a') && !e.target.closest('button')) {
                         openProjectModal(project.id);
                     }
                 });
             }
 
-            // Add animation delay based on index
             const delay = index * 0.1;
             if (card) {
                 card.style.animationDelay = `${delay}s`;
                 card.classList.add('animate-fade-in');
             }
 
-            // Add to container
-            projectsContainer.appendChild(projectCard);
+            fragment.appendChild(projectCard);
         } catch (err) {
             console.error('Error rendering project:', err);
         }
     });
+
+    requestAnimationFrame(() => {
+        projectsContainer.innerHTML = '';
+        projectsContainer.appendChild(fragment);
+    });
 }
 
-// Function to open project modal
 function openProjectModal(projectId) {
     if (!modalContentTemplate || !modalContent || !projectModal) return;
+
+    if (!projectsData || !Array.isArray(projectsData)) {
+        console.error('Project data not found or invalid');
+        return;
+    }
 
     const project = projectsData.find(p => p.id === projectId);
     if (!project) return;
 
     try {
-        // Clone the template
+
+        const fragment = document.createDocumentFragment();
+
         const content = modalContentTemplate.content.cloneNode(true);
 
-        // Set project data
         const modalImg = content.querySelector('.modal-img');
         if (modalImg) {
             modalImg.src = project.image;
             modalImg.alt = project.title;
+            modalImg.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://via.placeholder.com/400x250?text=Project+Image';
+            };
         }
 
         const modalTitle = content.querySelector('.modal-title');
@@ -152,7 +174,6 @@ function openProjectModal(projectId) {
         const modalDescription = content.querySelector('.modal-description');
         if (modalDescription) modalDescription.textContent = project.description;
 
-        // Add tech tags to the header
         const techTagsContainer = content.querySelector('.modal-tech-tags');
         if (techTagsContainer) {
             techTagsContainer.innerHTML = '';
@@ -162,7 +183,6 @@ function openProjectModal(projectId) {
             });
         }
 
-        // Add tech stack icons
         const techIcons = content.querySelector('.modal-tech-icons');
         if (techIcons) {
             techIcons.innerHTML = '';
@@ -172,17 +192,17 @@ function openProjectModal(projectId) {
             });
         }
 
-        // Set links
         const githubLink = content.querySelector('.modal-github-link');
         if (githubLink) githubLink.href = project.links.github;
 
         const liveLink = content.querySelector('.modal-live-link');
         if (liveLink) liveLink.href = project.links.live;
 
-        // Add gallery images
         const galleryContainer = content.querySelector('.modal-images');
         if (galleryContainer) {
             galleryContainer.innerHTML = '';
+
+            const galleryFragment = document.createDocumentFragment();
 
             project.gallery.forEach(imgUrl => {
                 const imgContainer = document.createElement('div');
@@ -192,16 +212,25 @@ function openProjectModal(projectId) {
                 img.src = imgUrl;
                 img.alt = `${project.title} screenshot`;
                 img.className = 'w-full h-48 object-cover';
+                img.loading = 'lazy';
+
+                img.onerror = function() {
+                    this.onerror = null;
+                    this.src = 'https://via.placeholder.com/400x250?text=Project+Screenshot';
+                };
 
                 imgContainer.appendChild(img);
-                galleryContainer.appendChild(imgContainer);
+                galleryFragment.appendChild(imgContainer);
             });
+
+            galleryContainer.appendChild(galleryFragment);
         }
 
-        // Add features list
         const featuresContainer = content.querySelector('.modal-features');
         if (featuresContainer) {
             featuresContainer.innerHTML = '';
+
+            const featuresFragment = document.createDocumentFragment();
 
             project.features.forEach(feature => {
                 const featureItem = document.createElement('li');
@@ -212,69 +241,68 @@ function openProjectModal(projectId) {
                     </span>
                     <span>${feature}</span>
                 `;
-                featuresContainer.appendChild(featureItem);
+                featuresFragment.appendChild(featureItem);
             });
+
+            featuresContainer.appendChild(featuresFragment);
         }
 
-        // Clear and add new content
-        modalContent.innerHTML = '';
-        modalContent.appendChild(content);
+        fragment.appendChild(content);
 
-        // Show the modal
-        projectModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        requestAnimationFrame(() => {
+            modalContent.innerHTML = '';
+            modalContent.appendChild(fragment);
+            projectModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
 
     } catch (err) {
         console.error('Error opening modal:', err);
     }
 }
 
-// Function to close project modal
 function closeProjectModal() {
     if (!projectModal) return;
 
     projectModal.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
+    document.body.style.overflow = '';
 }
 
-// Initialize scroll reveal animations for elements with .animate-fade-in class
 function initScrollReveal() {
-    // Choose the elements that should be observed
+
     const elements = document.querySelectorAll('.fade-in, .animate-fade-in');
     if (!elements.length) return;
 
-    // Create an Intersection Observer
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // If element is in view
+
             if (entry.isIntersecting) {
-                // Add class to start animation
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-                // Stop observing the element
                 observer.unobserve(entry.target);
             }
         });
     }, {
-        root: null, // viewport
+        root: null,
         rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1 // trigger when 10% of the element is visible
+        threshold: 0.1
     });
 
-    // Start observing each element
+    let delay = 0;
     elements.forEach(element => {
-        // Set initial styles to ensure the animation works
         element.style.opacity = '0';
         element.style.transform = 'translateY(20px)';
         element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
 
-        observer.observe(element);
+        setTimeout(() => {
+            observer.observe(element);
+        }, delay);
+        delay += 10;
     });
 }
 
-// Setup event listeners
 function setupEventListeners() {
-    // Close modal when clicking X button
+
     if (modalClose) {
         modalClose.addEventListener('click', (e) => {
             e.preventDefault();
@@ -282,31 +310,25 @@ function setupEventListeners() {
         });
     }
 
-    // Close modal when clicking backdrop
     if (modalBackdrop) {
         modalBackdrop.addEventListener('click', (e) => {
             closeProjectModal();
         });
     }
 
-    // Close modal when pressing Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && projectModal && projectModal.classList.contains('active')) {
             closeProjectModal();
         }
     });
 
-    // Stop propagation for modal content (to prevent closing when clicking inside)
     if (modalContent) {
         modalContent.addEventListener('click', (e) => {
             e.stopPropagation();
         });
     }
-
-    // Handle navbar scroll effect
     window.addEventListener('scroll', handleNavbarScroll);
 
-    // Setup "See More Projects" button
     const seeMoreButton = document.querySelector('button span.gradient-text');
     if (seeMoreButton && seeMoreButton.textContent.includes('See More Projects')) {
         const button = seeMoreButton.closest('button');
@@ -317,7 +339,6 @@ function setupEventListeners() {
         }
     }
 
-    // Setup smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -332,62 +353,69 @@ function setupEventListeners() {
                     behavior: 'smooth'
                 });
             }
-        });
+        }, { passive: false });
     });
 }
 
-// Handle navbar scroll effect
+let lastScrollY = window.scrollY;
+let ticking = false;
+
 function handleNavbarScroll() {
     const navbar = document.getElementById('navbar');
     if (!navbar) return;
 
-    if (window.scrollY > 50) {
-        navbar.classList.remove('navbar-top');
-        navbar.classList.add('navbar-scrolled');
-    } else {
-        navbar.classList.add('navbar-top');
-        navbar.classList.remove('navbar-scrolled');
+    lastScrollY = window.scrollY;
+
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            if (lastScrollY > 50) {
+                navbar.classList.remove('navbar-top');
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.add('navbar-top');
+                navbar.classList.remove('navbar-scrolled');
+            }
+            ticking = false;
+        });
+
+        ticking = true;
     }
 }
 
-// Check for images that fail to load and replace with placeholders
 function setupImageErrorHandling() {
     document.addEventListener('error', function(e) {
         if (e.target.tagName.toLowerCase() === 'img') {
-
+            e.target.src = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
+            e.target.onerror = null; // Prevent infinite loop
         }
     }, true);
 }
 
-// Main initialization function
 function init() {
-    // Wait for DOM to be fully loaded
     if (!isDOMLoaded()) {
         document.addEventListener('DOMContentLoaded', init);
         return;
     }
-
-    // Initialize DOM elements
     if (!initDOMElements()) {
         console.error('Failed to initialize DOM elements');
         return;
     }
 
-    // Setup image error handling
     setupImageErrorHandling();
 
-    // Render projects
-    renderProjects();
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+            renderProjects();
+            initScrollReveal();
+        });
+    } else {
+        setTimeout(() => {
+            renderProjects();
+            initScrollReveal();
+        }, 0);
+    }
 
-    // Setup event listeners
     setupEventListeners();
-
-    // Initialize scroll reveal animations
-    initScrollReveal();
-
-    // Check initial scroll position for navbar
     handleNavbarScroll();
 }
-
-// Start initialization
 init();
