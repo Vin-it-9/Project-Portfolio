@@ -787,7 +787,7 @@
 <!-- Project Modal (Vanilla JS implementation) -->
 <div id="project-modal" class="modal">
     <div class="modal-backdrop" id="modal-backdrop"></div>
-    <div class="modal-container glass-modal rounded-xl shadow-2xl overflow-hidden glow-border">
+    <div class="modal-container glass-modal rounded-lg shadow-2xl overflow-hidden ">
         <!-- Modal Close Button -->
         <button id="modal-close" class="absolute top-5 right-5 text-github-text z-30 bg-github-dark/50 hover:bg-github-dark w-10 h-10 rounded-full flex items-center justify-center border border-github-border/30">
             <i class="fas fa-times"></i>
@@ -800,8 +800,6 @@
     </div>
 </div>
 
-<!-- Footer with Glassmorphism -->
-<!-- Enhanced Footer with Glassmorphism -->
 <footer class="relative mt-20 overflow-hidden">
     <!-- Decorative elements -->
     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-blue-500/50"></div>
@@ -951,87 +949,103 @@
     </script>
 
 </footer>
-<!-- Enhanced Project Card Template for Java Developer Portfolio -->
+<!--Project Card Template -->
 <template id="project-card-template">
-    <div class="project-card glass-card rounded-xl overflow-hidden cursor-pointer transition-all duration-500 border border-github-border/30  hover:shadow-lg">
+    <div
+            class="project-card glass-card rounded-lg overflow-hidden cursor-pointer transition-all duration-500 border border-github-border/30 hover:shadow-lg
+           w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-lg mx-auto"
+    >
         <div class="relative group">
-            <!-- Image container with improved hover effect -->
-            <div class="project-img-container h-60 overflow-hidden">
-                <img class="project-img w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="" alt="">
+            <div
+                    class="project-img-container h-40 sm:h-48 md:h-56 lg:h-60 overflow-hidden"
+            >
+                <img
+                        class="project-img w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                        src=""
+                        alt=""
+                />
             </div>
-
-            <!-- Enhanced glassmorphism overlay with gradient -->
             <div class="absolute inset-0 bg-gradient-to-t from-github-dark via-github-dark/70 to-transparent opacity-90"></div>
-
-            <!-- Pattern overlay for texture -->
             <div class="absolute inset-0 opacity-20 bg-pattern pointer-events-none"></div>
-
-            <!-- Enhanced "New" badge with glow effect -->
-            <div class="new-badge hidden absolute top-4 right-4 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-medium rounded-full shadow-lg shadow-blue-500/20 border border-blue-400/20 flex items-center gap-1.5">
-                <span class="inline-block w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <div
+                    class="new-badge hidden absolute top-3 right-3 px-2.5 py-1 bg-gradient-to-r from-blue-600 to-purple-600
+               text-white text-[10px] sm:text-xs font-medium rounded-full shadow-lg shadow-blue-500/20
+               border border-blue-400/20 flex items-center gap-1.5"
+            >
+                <span class="inline-block w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
                 <span>New</span>
             </div>
-
-            <!-- Bottom info with improved styling -->
-            <div class="absolute bottom-0 left-0 p-5 w-full">
-                <h2 class="project-title text-xl font-semibold mb-2 text-white group-hover:text-blue-300 transition-all duration-300"></h2>
-                <div class="project-tech flex flex-wrap gap-2 mb-3">
-                    <!-- Tech badges will be added here -->
-                </div>
+            <div class="absolute bottom-0 left-0 p-4 sm:p-5 w-full">
+                <h2
+                        class="project-title text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-white
+                 group-hover:text-blue-300 transition-all duration-300"
+                ></h2>
+                <div class="project-tech flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3"></div>
             </div>
         </div>
 
-        <!-- Card bottom with enhanced styling -->
-        <div class="p-5 bg-gradient-to-b from-github-dark-secondary/50 to-github-dark-secondary/70">
-            <p class="project-summary text-github-text/80 text-sm mb-4 line-clamp-2"></p>
+        <div class="p-4 sm:p-5 bg-gradient-to-b from-github-dark-secondary/50 to-github-dark-secondary/70">
+            <p class="project-summary text-github-text/80 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2"></p>
             <div class="flex justify-between items-center">
-                <!-- Project links with enhanced hover effects -->
-                <div class="flex gap-4">
-                    <a href="#" class="project-github-link h-9 w-9 flex items-center justify-center rounded-full bg-github-dark-secondary/50 border border-github-border/20 hover:border-github-accent/50 hover:bg-github-dark-secondary/80 transition-all duration-300" target="_blank" title="View Source Code">
+                <div class="flex gap-3 sm:gap-4">
+                    <a
+                            href="#"
+                            class="project-github-link h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center rounded-full
+                   bg-github-dark-secondary/50 border border-github-border/20 hover:border-github-accent/50
+                   hover:bg-github-dark-secondary/80 transition-all duration-300"
+                            target="_blank"
+                            title="View Source Code"
+                    >
                         <i class="fab fa-github text-github-text hover:text-github-accent transition-colors duration-300"></i>
                     </a>
-                    <a href="#" class="project-live-link h-9 w-9 flex items-center justify-center rounded-full bg-github-dark-secondary/50 border border-github-border/20 hover:border-blue-500/50 hover:bg-github-dark-secondary/80 transition-all duration-300" target="_blank" title="View Live Demo">
+                    <a
+                            href="#"
+                            class="project-live-link h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center rounded-full
+                   bg-github-dark-secondary/50 border border-github-border/20 hover:border-blue-500/50
+                   hover:bg-github-dark-secondary/80 transition-all duration-300"
+                            target="_blank"
+                            title="View Live Demo"
+                    >
                         <i class="fas fa-external-link-alt text-github-text hover:text-blue-400 transition-colors duration-300"></i>
                     </a>
                 </div>
-
-                <!-- Enhanced call-to-action button -->
-                <button class="project-open-btn glass-button bg-gradient-to-r from-blue-600/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-600/90 text-white px-5 py-2.5 rounded-lg text-sm transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-blue-500/20 flex items-center gap-2 border border-blue-500/20 hover:border-blue-500/40">
+                <button
+                        class="project-open-btn glass-button text-xs sm:text-sm px-4 sm:px-5 py-2 rounded-lg flex items-center gap-1.5 sm:gap-2
+                 bg-gradient-to-r from-blue-600/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-600/90
+                 text-white transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-blue-500/20
+                 border border-blue-500/20 hover:border-blue-500/40"
+                >
                     <span>View Details</span>
-                    <i class="fas fa-arrow-right text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
+                    <i class="fas fa-arrow-right transition-transform duration-300 group-hover:translate-x-1 text-[10px] sm:text-xs"></i>
                 </button>
             </div>
         </div>
     </div>
 </template>
 
+
 <!-- Template for Modal Content -->
-<!-- Enhanced Modal Content Template for Java Portfolio -->
+<!-- Modal Content Template -->
 <template id="modal-content-template">
     <div class="modal-header">
-        <!-- Enhanced Modal Hero Section -->
-        <div class="relative modal-img-container rounded-xl overflow-hidden mb-8 border border-blue-500/30 shadow-lg shadow-blue-500/10">
 
-
+        <div class="relative modal-img-container rounded-lg overflow-hidden mb-8 shadow-lg ">
             <img class="modal-img w-full h-80 object-cover transition-all duration-700" src="" alt="">
 
-            <!-- Enhanced gradient overlay -->
             <div class="absolute inset-0 bg-gradient-to-t from-github-dark via-github-dark/80 to-transparent"></div>
 
-            <!-- Pattern overlay for texture -->
             <div class="absolute inset-0 opacity-20 bg-pattern pointer-events-none"></div>
 
-            <!-- Enhanced project title area -->
             <div class="absolute bottom-0 left-0 p-8 w-full">
                 <h2 class="modal-title text-3xl md:text-4xl font-bold mb-4 text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-white to-blue-300"></h2>
                 <div class="modal-tech-tags flex flex-wrap gap-2 mb-2">
-                    <!-- Tech tags will be added here -->
+                    <!-- Technology tags will be added here by JS -->
                 </div>
             </div>
         </div>
 
         <div class="modal-body space-y-12">
-            <!-- About This Project -->
+
             <div class="animate-fade-in">
                 <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
                     <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
@@ -1040,14 +1054,14 @@
                     About This Project
                 </h3>
                 <div class="modal-description text-github-text/90 leading-relaxed glass-card p-6 rounded-lg border border-github-border/30 shadow-inner">
-                    <!-- Description will be added here by JavaScript -->
+                    <!-- Description will be added here by JS -->
                 </div>
             </div>
 
             <!-- Tech Stack with circular progress indicators -->
-            <div class="animate-fade-in delay-100">
+            <div class="">
                 <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
-                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center border border-purple-500/20">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
                         <i class="fas fa-tools text-purple-400"></i>
                     </div>
                     Technology Stack
@@ -1058,9 +1072,9 @@
             </div>
 
             <!-- Key Features with enhanced styling -->
-            <div class="animate-fade-in delay-200">
+            <div class="">
                 <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
-                    <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                    <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
                         <i class="fas fa-lightbulb text-green-400"></i>
                     </div>
                     Key Features
@@ -1071,9 +1085,9 @@
             </div>
 
             <!-- Project Gallery with enhanced lightbox-style presentation -->
-            <div class="animate-fade-in delay-300">
+            <div class="">
                 <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
-                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                    <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center ">
                         <i class="fas fa-images text-blue-400"></i>
                     </div>
                     Project Gallery
@@ -1084,7 +1098,7 @@
             </div>
 
             <!-- Project Links with enhanced buttons -->
-            <div class="animate-fade-in delay-400">
+            <div class="">
                 <h3 class="text-xl font-semibold mb-5 flex items-center gap-3 text-github-text">
                     <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
                         <i class="fas fa-link text-blue-400"></i>
@@ -1107,7 +1121,7 @@
                         </div>
                         <div>
                             <span class="font-medium block">Live Demo</span>
-                            <span class="text-xs text-white/80">Experience the application</span>
+                            <span class="text-xs text-white/80">Use the application</span>
                         </div>
                     </a>
                 </div>
@@ -1116,63 +1130,6 @@
 
     </div>
 
-    <style>
-        /* Pattern background for modal */
-        .bg-pattern {
-            background-image: linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        /* Feature item styling */
-        .modal-features li {
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .modal-features li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.375rem;
-            width: 1rem;
-            height: 1rem;
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 50%;
-        }
-
-        .modal-features li::after {
-            content: '✓';
-            position: absolute;
-            left: 0.28rem;
-            top: 0.15rem;
-            font-size: 0.8rem;
-            color: #3b82f6;
-        }
-
-        /* Enhanced image hover effects */
-        .modal-images img {
-            transition: all 0.3s ease;
-        }
-
-        .modal-images img:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
-        }
-
-        /* Modal title gradient animation */
-        .modal-title {
-            background-size: 200% auto;
-            animation: textShine 3s linear infinite;
-        }
-
-        @keyframes textShine {
-            to {
-                background-position: 200% center;
-            }
-        }
-    </style>
 </template>
 
 <!-- JavaScript file -->
