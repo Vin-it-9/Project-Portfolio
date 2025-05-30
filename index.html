@@ -238,7 +238,7 @@
                          style="top: 15%; left: 75%; animation-duration: 9s; animation-delay: -5s;" data-depth="0.5"></div>
                 </div>
             </div>
-
+            <script src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
             <style>
                 .enhanced-glass-card {
                     background: rgba(30, 41, 59, 0.4);
@@ -320,10 +320,157 @@
                         transition: transform 0.5s ease-out;
                     }
                 }
+                @media (max-width: 768px) {
+                    .tilt-container {
+                        transform: perspective(800px);
+                        padding: 1rem 0;
+                        overflow: visible;
+                    }
+
+                    #tilt-card {
+                        transform-origin: center center;
+                        max-height: 90vh;
+                    }
+
+                    .enhanced-glass-card {
+                        background: rgba(30, 41, 59, 0.5);
+                    }
+
+                    .shadow-3d {
+                        box-shadow:
+                                0 5px 15px rgba(0, 0, 0, 0.2),
+                                0 3px 6px rgba(0, 0, 0, 0.1);
+                    }
+                    #tilt-card .absolute {
+                        transition: all 0.3s ease-out;
+                    }
+                    #tilt-card {
+                        -webkit-tap-highlight-color: rgba(0,0,0,0);
+                        touch-action: manipulation;
+                    }
+                    .is-touch-active .tilt-layer {
+                        transition: transform 0.2s ease-out !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    #tilt-card {
+                        width: 95%;
+                        margin: 0 auto;
+                    }
+
+                    #tilt-card .absolute {
+                        transform: scale(0.8);
+                    }
+
+                    #tilt-card .absolute[style*="top: -10px"] {
+                        top: -5px;
+                    }
+
+                    #tilt-card .absolute[style*="bottom: -8px"] {
+                        bottom: -4px;
+                    }
+
+                    #tilt-card .absolute[style*="bottom: -5px"] {
+                        bottom: -2px;
+                    }
+                    #tilt-card .absolute pre {
+                        font-size: 9px;
+                    }
+                }
             </style>
 
 
             <script>
+                (function() {
+
+                    const isMobile = window.matchMedia("(max-width: 768px)").matches ||
+                        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                    const tiltCard = document.getElementById('tilt-card');
+                    if (!tiltCard) return;
+                    if (isMobile) {
+                        if (tiltCard.vanillaTilt) {
+                            tiltCard.vanillaTilt.destroy();
+                        }
+                        VanillaTilt.init(tiltCard, {
+                            max: 10,
+                            speed: 1000,
+                            scale: 1.03,
+                            glare: true,
+                            "max-glare": 0.2,
+                            perspective: 800,
+                            gyroscope: true,
+                            gyroscopeMinAngleX: -10,
+                            gyroscopeMaxAngleX: 10,
+                            gyroscopeMinAngleY: -10,
+                            gyroscopeMaxAngleY: 10,
+                            gyroscopeSamples: 10
+                        });
+
+                        const tiltLayers = document.querySelectorAll('.tilt-layer');
+
+                        const handleTouchMove = (e) => {
+                            const touch = e.touches[0];
+                            const rect = tiltCard.getBoundingClientRect();
+
+                            const x = touch.clientX - rect.left;
+                            const y = touch.clientY - rect.top;
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+                            tiltLayers.forEach(element => {
+                                const depth = parseFloat(element.getAttribute('data-depth') || 0.1) * 0.4;
+                                const moveX = (x - centerX) * depth;
+                                const moveY = (y - centerY) * depth;
+                                element.style.transition = 'transform 0.3s ease-out';
+                                element.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                            });
+                        };
+                        const handleTouchEnd = () => {
+                            tiltLayers.forEach(element => {
+                                element.style.transition = 'transform 0.5s ease-out';
+                                element.style.transform = 'translate3d(0, 0, 0)';
+                            });
+                        };
+                        tiltCard.addEventListener('touchmove', handleTouchMove, { passive: true });
+                        tiltCard.addEventListener('touchend', handleTouchEnd);
+                        tiltCard.addEventListener('touchcancel', handleTouchEnd);
+                        window.addEventListener('deviceorientation', (e) => {
+                            if (!e.beta || !e.gamma) return;
+                            if (!tiltCard.classList.contains('is-touch-active')) {
+                                tiltLayers.forEach(element => {
+                                    const depth = parseFloat(element.getAttribute('data-depth') || 0.1) * 0.2;
+                                    const moveX = Math.max(-5, Math.min(5, e.gamma * 0.2)) * depth;
+                                    const moveY = Math.max(-5, Math.min(5, e.beta * 0.2)) * depth;
+                                    element.style.transition = 'transform 0.8s ease-out';
+                                    element.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+                                });
+                            }
+                        });
+                        tiltCard.addEventListener('touchstart', () => {
+                            tiltCard.classList.add('is-touch-active');
+                        }, { passive: true });
+                        tiltCard.addEventListener('touchend', () => {
+                            tiltCard.classList.remove('is-touch-active');
+                        });
+                    }
+                    const adjustTiltContainer = () => {
+                        const tiltContainer = document.querySelector('.tilt-container');
+                        if (!tiltContainer) return;
+
+                        if (window.innerWidth <= 480) {
+                            tiltContainer.style.paddingTop = '1.5rem';
+                            tiltContainer.style.paddingBottom = '1.5rem';
+                        } else if (window.innerWidth <= 768) {
+                            tiltContainer.style.paddingTop = '1rem';
+                            tiltContainer.style.paddingBottom = '1rem';
+                        } else {
+                            tiltContainer.style.paddingTop = '0';
+                            tiltContainer.style.paddingBottom = '0';
+                        }
+                    };
+                    adjustTiltContainer();
+                    window.addEventListener('resize', adjustTiltContainer);
+                })();
                 VanillaTilt.init(document.getElementById('tilt-card'), {
                     max: 25,
                     speed: 600,
