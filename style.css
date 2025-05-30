@@ -501,3 +501,77 @@ html {
         background-position: 200% center;
     }
 }
+
+.enhanced-glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transform-style: preserve-3d;
+}
+
+.enhanced-glow-border {
+    box-shadow:
+            0 0 15px rgba(59, 130, 246, 0.3),
+            0 0 30px rgba(147, 51, 234, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform-style: preserve-3d;
+}
+
+.shadow-3d {
+    box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.2),
+            0 5px 8px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.shadow-glow {
+    box-shadow:
+            0 8px 16px rgba(0, 0, 0, 0.2),
+            0 4px 8px rgba(0, 0, 0, 0.1),
+            0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.tilt-container {
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.tilt-layer {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+@keyframes floatEnhanced {
+    0%, 100% {
+        transform: translateY(0) translateZ(0);
+    }
+    50% {
+        transform: translateY(-10px) translateZ(20px);
+    }
+}
+
+.animate-floatEnhanced {
+    animation: floatEnhanced 6s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+    .tilt-container {
+        max-width: 90vw;
+    }
+
+    #tilt-card {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    #tilt-card .absolute {
+        transform: scale(0.8);
+    }
+}
+@media (pointer: coarse) {
+    .tilt-layer {
+        transition: transform 0.5s ease-out;
+    }
+}
