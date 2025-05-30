@@ -951,7 +951,7 @@
 
 </footer>
 <!--Project Card Template -->
-<template id="project-card-template">
+<template id="project-card-template" data-template="true">
     <div
             class="project-card glass-card rounded-lg overflow-hidden cursor-pointer transition-all duration-500 border border-github-border/30 hover:shadow-lg
            w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-lg mx-auto"
@@ -1024,10 +1024,17 @@
     </div>
 </template>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('template[data-template="true"]').forEach(template => {
+            template.style.display = 'none';
+        });
+    });
+</script>
 
 <!-- Template for Modal Content -->
 <!-- Modal Content Template -->
-<template id="modal-content-template">
+<template id="modal-content-template" data-template="true">
     <div class="modal-header">
 
         <div class="relative modal-img-container rounded-lg overflow-hidden mb-8 shadow-lg ">
