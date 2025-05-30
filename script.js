@@ -389,7 +389,7 @@
         }
     }
 
-    function debounce(func, wait = 50) {
+    function debounce(func, wait = 10) {
         let timeout;
         return function() {
             const context = this, args = arguments;
