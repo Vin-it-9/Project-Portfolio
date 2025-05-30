@@ -9,18 +9,13 @@
             tiltCard.vanillaTilt.destroy();
         }
         VanillaTilt.init(tiltCard, {
-            max: 30,
-            speed: 1500,
-            scale: 1.03,
+            max: 20,
+            speed: 2500,
             glare: false,
             "max-glare": 0,
-            perspective: 800,
+            perspective: 1200,
             gyroscope: true,
-            gyroscopeMinAngleX: -10,
-            gyroscopeMaxAngleX: 10,
-            gyroscopeMinAngleY: -10,
-            gyroscopeMaxAngleY: 10,
-            gyroscopeSamples: 10
+
         });
 
         const tiltLayers = document.querySelectorAll('.tilt-layer');
