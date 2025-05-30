@@ -1,5 +1,5 @@
-
 let projectsContainer, projectModal, modalContent, modalBackdrop, projectCardTemplate, modalContentTemplate, modalClose;
+let projectsData = []; // Will be populated from the JSON file
 
 function isDOMLoaded() {
     return document.readyState === 'complete' || document.readyState === 'interactive';
@@ -23,9 +23,26 @@ function initDOMElements() {
     return true;
 }
 
-function createTechBadge(tech) {
-    const fragment = document.createDocumentFragment();
+// Fetch projects data from JSON file
+async function fetchProjectsData() {
+    try {
+        const response = await fetch('https://vin-it-9.github.io/Project-Portfolio/data.json');
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        projectsData = await response.json();
+        return true;
+    } catch (error) {
+        console.error('Error fetching projects data:', error);
+        // Fallback to empty array if fetch fails
+        projectsData = [];
+        return false;
+    }
+}
+
+function createTechBadge(tech) {
     const badge = document.createElement('span');
     badge.className = 'px-2 py-1 text-xs rounded-full glass-card border border-github-border/30 flex items-center gap-1.5';
     badge.style.zIndex = '20';
@@ -39,8 +56,7 @@ function createTechBadge(tech) {
         <span>${tech.name}</span>
     `;
 
-    fragment.appendChild(badge);
-    return fragment;
+    return badge;
 }
 
 function createTechIcon(tech) {
@@ -58,88 +74,153 @@ function createTechIcon(tech) {
     return techEl;
 }
 
-function renderProjects() {
+// Improved renderProjects function with better performance
+function renderProjects(filter = 'all') {
     if (!projectsContainer) return;
 
+    // Create a document fragment to batch DOM changes
     const fragment = document.createDocumentFragment();
 
-    if (!projectsData || !Array.isArray(projectsData)) {
-        console.error('Projects data not found or invalid');
-        return;
+    // Show loading indicator
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.className = 'text-center py-12';
+    loadingIndicator.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x text-github-accent"></i><p class="mt-4">Loading projects...</p>';
+    projectsContainer.innerHTML = '';
+    projectsContainer.appendChild(loadingIndicator);
+
+    // Filter projects if needed
+    const filteredProjects = filter === 'all'
+        ? projectsData
+        : projectsData.filter(project => project.category === filter);
+
+    // Process in smaller batches to avoid UI blocking
+    const batchSize = 4; // Process 4 projects at a time
+    let currentIndex = 0;
+
+    function processBatch() {
+        const endIndex = Math.min(currentIndex + batchSize, filteredProjects.length);
+        const batch = filteredProjects.slice(currentIndex, endIndex);
+
+        batch.forEach((project, index) => {
+            try {
+                const projectCard = projectCardTemplate.content.cloneNode(true);
+                const card = projectCard.querySelector('.project-card');
+                card.setAttribute('data-project-id', project.id);
+
+                const img = projectCard.querySelector('.project-img');
+                if (img) {
+                    // Use data-src for lazy loading
+                    img.setAttribute('data-src', project.image);
+                    img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%23cccccc"%3E%3C/rect%3E%3C/svg%3E'; // Tiny placeholder
+                    img.alt = project.title;
+                    img.classList.add('lazy-image');
+                    img.onerror = function() {
+                        this.onerror = null;
+                        this.src = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
+                    };
+                }
+
+                projectCard.querySelector('.project-title').textContent = project.title;
+                projectCard.querySelector('.project-summary').textContent = project.summary;
+
+                const newBadge = projectCard.querySelector('.new-badge');
+                if (project.isNew && newBadge) {
+                    newBadge.classList.remove('hidden');
+                }
+
+                const techContainer = projectCard.querySelector('.project-tech');
+                if (techContainer) {
+                    techContainer.innerHTML = '';
+                    project.technologies.slice(0, 3).forEach(tech => {
+                        techContainer.appendChild(createTechBadge(tech));
+                    });
+                }
+
+                const githubLink = projectCard.querySelector('.project-github-link');
+                if (githubLink) githubLink.href = project.links.github;
+
+                const liveLink = projectCard.querySelector('.project-live-link');
+                if (liveLink) liveLink.href = project.links.live;
+
+                const openBtn = projectCard.querySelector('.project-open-btn');
+                if (openBtn) {
+                    openBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openProjectModal(project.id);
+                    });
+                }
+
+                if (card) {
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.closest('a') && !e.target.closest('button')) {
+                            openProjectModal(project.id);
+                        }
+                    });
+                }
+
+                const delay = (currentIndex + index) * 0.1;
+                if (card) {
+                    card.style.animationDelay = `${delay}s`;
+                    card.classList.add('animate-fade-in');
+                }
+
+                fragment.appendChild(projectCard);
+            } catch (err) {
+                console.error('Error rendering project:', err);
+            }
+        });
+
+        currentIndex = endIndex;
+
+        if (currentIndex < filteredProjects.length) {
+            // Schedule next batch
+            setTimeout(() => {
+                requestAnimationFrame(processBatch);
+            }, 10); // Small delay to allow UI to breathe
+        } else {
+            // All batches processed, update the DOM once
+            projectsContainer.innerHTML = '';
+            projectsContainer.appendChild(fragment);
+
+            // Initialize lazy loading after all items are added
+            initLazyLoading();
+        }
     }
 
-    projectsData.forEach((project, index) => {
-        try {
-            const projectCard = projectCardTemplate.content.cloneNode(true);
-            const card = projectCard.querySelector('.project-card');
-            card.setAttribute('data-project-id', project.id);
-            const img = projectCard.querySelector('.project-img');
-            if (img) {
-                img.src = project.image;
-                img.alt = project.title;
-                img.loading = 'lazy';
-                img.onerror = function() {
-                    this.onerror = null;
-                    this.src = 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
-                };
-            }
-
-            projectCard.querySelector('.project-title').textContent = project.title;
-            projectCard.querySelector('.project-summary').textContent = project.summary;
-
-            const newBadge = projectCard.querySelector('.new-badge');
-            if (project.isNew && newBadge) {
-                newBadge.classList.remove('hidden');
-            }
-
-            const techContainer = projectCard.querySelector('.project-tech');
-            if (techContainer) {
-                techContainer.innerHTML = '';
-                project.technologies.slice(0, 3).forEach(tech => {
-                    techContainer.appendChild(createTechBadge(tech));
-                });
-            }
-
-            const githubLink = projectCard.querySelector('.project-github-link');
-            if (githubLink) githubLink.href = project.links.github;
-
-            const liveLink = projectCard.querySelector('.project-live-link');
-            if (liveLink) liveLink.href = project.links.live;
-
-            const openBtn = projectCard.querySelector('.project-open-btn');
-            if (openBtn) {
-                openBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openProjectModal(project.id);
-                });
-            }
-
-            if (card) {
-                card.addEventListener('click', (e) => {
-                    if (!e.target.closest('a') && !e.target.closest('button')) {
-                        openProjectModal(project.id);
-                    }
-                });
-            }
-
-            const delay = index * 0.1;
-            if (card) {
-                card.style.animationDelay = `${delay}s`;
-                card.classList.add('animate-fade-in');
-            }
-
-            fragment.appendChild(projectCard);
-        } catch (err) {
-            console.error('Error rendering project:', err);
-        }
-    });
-
-    requestAnimationFrame(() => {
-        projectsContainer.innerHTML = '';
-        projectsContainer.appendChild(fragment);
-    });
+    // Start processing in batches
+    requestAnimationFrame(processBatch);
 }
+
+// Lazy loading implementation
+function initLazyLoading() {
+    const lazyImages = document.querySelectorAll('.lazy-image');
+
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy-image');
+                    imageObserver.unobserve(img);
+                }
+            });
+        });
+
+        lazyImages.forEach(img => {
+            imageObserver.observe(img);
+        });
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+        });
+    }
+}
+
+// Improved modal handling with caching
+const modalCache = new Map(); // Cache modal content for better performance
 
 function openProjectModal(projectId) {
     if (!modalContentTemplate || !modalContent || !projectModal) return;
@@ -149,13 +230,20 @@ function openProjectModal(projectId) {
         return;
     }
 
-    const project = projectsData.find(p => p.id === projectId);
-    if (!project) return;
-
     try {
+        // Check if this modal content is already in the cache
+        if (modalCache.has(projectId)) {
+            modalContent.innerHTML = '';
+            modalContent.appendChild(modalCache.get(projectId).cloneNode(true));
+            projectModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            return;
+        }
+
+        const project = projectsData.find(p => p.id === projectId);
+        if (!project) return;
 
         const fragment = document.createDocumentFragment();
-
         const content = modalContentTemplate.content.cloneNode(true);
 
         const modalImg = content.querySelector('.modal-img');
@@ -209,9 +297,10 @@ function openProjectModal(projectId) {
                 imgContainer.className = 'rounded-lg overflow-hidden border border-github-border/30 glass-card transition-all duration-300';
 
                 const img = document.createElement('img');
-                img.src = imgUrl;
+                img.setAttribute('data-src', imgUrl);
+                img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%23cccccc"%3E%3C/rect%3E%3C/svg%3E'; // Tiny placeholder
                 img.alt = `${project.title} screenshot`;
-                img.className = 'w-full h-48 object-cover';
+                img.className = 'w-full h-48 object-cover lazy-image';
                 img.loading = 'lazy';
 
                 img.onerror = function() {
@@ -249,11 +338,18 @@ function openProjectModal(projectId) {
 
         fragment.appendChild(content);
 
+        // Clone the content before adding to the DOM to store in cache
+        const clonedContent = fragment.cloneNode(true);
+        modalCache.set(projectId, clonedContent);
+
         requestAnimationFrame(() => {
             modalContent.innerHTML = '';
             modalContent.appendChild(fragment);
             projectModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Initialize lazy loading for gallery images
+            initLazyLoading();
         });
 
     } catch (err) {
@@ -269,13 +365,11 @@ function closeProjectModal() {
 }
 
 function initScrollReveal() {
-
     const elements = document.querySelectorAll('.fade-in, .animate-fade-in');
     if (!elements.length) return;
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
@@ -288,21 +382,31 @@ function initScrollReveal() {
         threshold: 0.1
     });
 
-    let delay = 0;
     elements.forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(20px)';
         element.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-
-        setTimeout(() => {
-            observer.observe(element);
-        }, delay);
-        delay += 10;
+        observer.observe(element);
     });
 }
 
-function setupEventListeners() {
+// Debounce function to improve scroll performance
+function debounce(func, wait = 20, immediate = true) {
+    let timeout;
+    return function() {
+        const context = this, args = arguments;
+        const later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
 
+function setupEventListeners() {
     if (modalClose) {
         modalClose.addEventListener('click', (e) => {
             e.preventDefault();
@@ -327,7 +431,9 @@ function setupEventListeners() {
             e.stopPropagation();
         });
     }
-    window.addEventListener('scroll', handleNavbarScroll);
+
+    // Use debounced scroll handler for better performance
+    window.addEventListener('scroll', debounce(handleNavbarScroll, 10));
 
     const seeMoreButton = document.querySelector('button span.gradient-text');
     if (seeMoreButton && seeMoreButton.textContent.includes('See More Projects')) {
@@ -339,6 +445,7 @@ function setupEventListeners() {
         }
     }
 
+    // Improved smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -353,7 +460,26 @@ function setupEventListeners() {
                     behavior: 'smooth'
                 });
             }
-        }, { passive: false });
+        });
+    });
+
+    // Filter buttons
+    document.querySelectorAll('[data-filter]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const filter = button.getAttribute('data-filter') || 'all';
+
+            // Update active button styling
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.classList.remove('bg-github-accent', 'text-white', 'shadow-lg');
+                btn.classList.add('text-github-text', 'hover:text-github-accent');
+            });
+
+            button.classList.add('bg-github-accent', 'text-white', 'shadow-lg');
+            button.classList.remove('text-github-text', 'hover:text-github-accent');
+
+            renderProjects(filter);
+        });
     });
 }
 
@@ -367,7 +493,7 @@ function handleNavbarScroll() {
     lastScrollY = window.scrollY;
 
     if (!ticking) {
-        window.requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
             if (lastScrollY > 50) {
                 navbar.classList.remove('navbar-top');
                 navbar.classList.add('navbar-scrolled');
@@ -391,11 +517,13 @@ function setupImageErrorHandling() {
     }, true);
 }
 
-function init() {
+// Main initialization function
+async function init() {
     if (!isDOMLoaded()) {
         document.addEventListener('DOMContentLoaded', init);
         return;
     }
+
     if (!initDOMElements()) {
         console.error('Failed to initialize DOM elements');
         return;
@@ -403,19 +531,33 @@ function init() {
 
     setupImageErrorHandling();
 
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            renderProjects();
-            initScrollReveal();
-        });
-    } else {
-        setTimeout(() => {
-            renderProjects();
-            initScrollReveal();
-        }, 0);
+    // First show loading state
+    if (projectsContainer) {
+        projectsContainer.innerHTML = '<div class="text-center py-20"><i class="fas fa-spinner fa-spin fa-3x text-github-accent"></i><p class="mt-4 text-xl">Loading projects...</p></div>';
     }
 
-    setupEventListeners();
-    handleNavbarScroll();
+    // Fetch data before rendering
+    const dataFetched = await fetchProjectsData();
+
+    if (dataFetched) {
+        // Initialize everything once data is available
+        renderProjects();
+        initScrollReveal();
+        setupEventListeners();
+        handleNavbarScroll();
+    } else {
+        // Show error message if data fetch failed
+        if (projectsContainer) {
+            projectsContainer.innerHTML = `
+                <div class="text-center py-20">
+                    <i class="fas fa-exclamation-triangle text-3xl text-yellow-500 mb-4"></i>
+                    <p class="text-xl mb-4">Unable to load projects</p>
+                    <button id="retry-btn" class="px-4 py-2 bg-github-accent text-white rounded">Retry</button>
+                </div>
+            `;
+            document.getElementById('retry-btn')?.addEventListener('click', init);
+        }
+    }
 }
+
 init();
