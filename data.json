@@ -1,56 +1,45 @@
 [
   {
     "id": 1,
-    "title": "E-Commerce Dashboard",
-    "summary": "A comprehensive dashboard for e-commerce businesses with real-time analytics and inventory management.",
-    "description": "A comprehensive dashboard for e-commerce businesses with real-time analytics, inventory management, and sales tracking. Features include customizable widgets, dark/light theme support, and responsive design. The dashboard provides actionable insights through interactive charts and graphs, allowing business owners to make data-driven decisions. The application includes user authentication with role-based access control and connects to various payment gateways for seamless financial operations.",
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    "category": "fullstack",
+    "title": "BMW Car Website",
+    "summary": "A modern, responsive BMW car showcase website built with HTML, CSS, and JavaScript.",
+    "description": "This project is a visually appealing and responsive BMW car website. It features interactive galleries, modern layouts, and smooth navigation. Users can browse BMW models, view high-quality images, and enjoy a seamless experience across devices. The site is built using only HTML, CSS, and JavaScript, focusing on clean code, maintainability, and performance.",
+    "image": "images/bmw/bmw.png",
+    "category": "frontend",
     "isNew": false,
     "technologies": [
       {
-        "name": "React",
-        "icon": "fab fa-react",
-        "color": "#61DAFB"
+        "name": "HTML",
+        "icon": "fab fa-html5",
+        "color": "#E34F26"
       },
       {
-        "name": "Node.js",
-        "icon": "fab fa-node-js",
-        "color": "#68A063"
-      },
-      {
-        "name": "MongoDB",
-        "icon": "fas fa-database",
-        "color": "#4DB33D"
-      },
-      {
-        "name": "Express",
-        "icon": "fab fa-node",
-        "color": "#ffffff"
-      },
-      {
-        "name": "Tailwind CSS",
+        "name": "CSS",
         "icon": "fab fa-css3-alt",
-        "color": "#38B2AC"
+        "color": "#1572B6"
+      },
+      {
+        "name": "JavaScript",
+        "icon": "fab fa-js-square",
+        "color": "#F7DF1E"
       }
     ],
     "links": {
-      "github": "https://github.com/username/ecommerce-dashboard",
-      "live": "https://ecommerce-dashboard-demo.netlify.app"
+      "github": "https://github.com/Vin-it-9/BMW",
+      "live": "https://vin-it-9.github.io/BMW/M5.html"
     },
     "gallery": [
-      "https://images.unsplash.com/photo-1484807352052-23338990c6c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+      "gallery/bmw/image1.png",
+      "gallery/bmw/image2.png",
+      "gallery/bmw/image3.png",
+      "gallery/bmw/image4.png"
     ],
     "features": [
-      "Real-time analytics dashboard with customizable widgets",
-      "Inventory management system with low stock alerts",
-      "Sales tracking with revenue forecasting",
-      "Customer relationship management (CRM) integration",
-      "Multi-currency support with automatic exchange rates",
-      "Dark/light theme with customizable color schemes"
+      "Responsive design for all devices",
+      "Interactive image gallery for BMW models",
+      "Modern and clean UI/UX",
+      "Fast load times with optimized images",
+      "Smooth scrolling and navigation"
     ]
   },
   {
